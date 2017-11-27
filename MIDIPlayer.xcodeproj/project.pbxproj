@@ -38,6 +38,12 @@
 		2586EC701FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
 		2586EC711FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
 		2586EC721FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
+		2586EC741FCC8A010090C8EB /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC731FCC8A010090C8EB /* utilities.swift */; };
+		2586EC751FCC8A010090C8EB /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC731FCC8A010090C8EB /* utilities.swift */; };
+		2586EC761FCC8A010090C8EB /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC731FCC8A010090C8EB /* utilities.swift */; };
+		2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
+		2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
+		2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +85,8 @@
 		2586EC611FCC6C540090C8EB /* MIDIFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFileManager.swift; sourceTree = "<group>"; };
 		2586EC621FCC6C540090C8EB /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2586EC6F1FCC727E0090C8EB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		2586EC731FCC8A010090C8EB /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
+		2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPlayerController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				2586EC5C1FCC6C400090C8EB /* CheckError.swift */,
+				2586EC731FCC8A010090C8EB /* utilities.swift */,
 			);
 			path = utilities;
 			sourceTree = "<group>";
@@ -201,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				2586EC6F1FCC727E0090C8EB /* TableViewController.swift */,
+				2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -354,7 +364,9 @@
 				2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */,
 				2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */,
 				2586EC631FCC6C540090C8EB /* MIDIManager.swift in Sources */,
+				2586EC741FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC5D1FCC6C400090C8EB /* CheckError.swift in Sources */,
+				2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,6 +375,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC6A1FCC6C540090C8EB /* File.swift in Sources */,
+				2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
+				2586EC751FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC711FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC361FCC6A680090C8EB /* MIDIPlayerTests.swift in Sources */,
 				2586EC5E1FCC6C400090C8EB /* CheckError.swift in Sources */,
@@ -376,6 +390,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC6B1FCC6C540090C8EB /* File.swift in Sources */,
+				2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
+				2586EC761FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC721FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC411FCC6A680090C8EB /* MIDIPlayerUITests.swift in Sources */,
 				2586EC5F1FCC6C400090C8EB /* CheckError.swift in Sources */,

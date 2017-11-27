@@ -18,13 +18,12 @@ class TableViewController:UITableViewController {
     var mode = TableMode.main
     
     var mainMenuCellList = ["Samples","Saved MIDI Files"]
+    var sampleCellList:Array<String>!
+    var savedCellList:Array<String>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
-    
-    
     
     // override
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -35,26 +34,67 @@ class TableViewController:UITableViewController {
         switch mode {
         case .main:
             return self.mainMenuCellList.count
-        default:
-            return 0
+            
+        case .samples:
+            return self.sampleCellList.count
+            
+        case .saved:
+            break
         }
-        
+        return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath)
+        
         switch mode {
+            
         case .main:
-            
-            print(indexPath.row)
-            let cell = UITableViewCell()
             cell.textLabel?.text = self.mainMenuCellList[indexPath.row]
-            return cell
-            
-        default:
             break
             
+        case .samples:
+            cell.textLabel?.text = self.sampleCellList[indexPath.row]
+            break
+            
+        case .saved:
+            break
         }
-        return UITableViewCell()
+        return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath){
+        switch mode {
+        case .main:
+            if (didSelectRowAt.row == 0) {
+                mode = .samples
+                self.reloadData()
+                tableView.reloadData()
+                
+            } else if (didSelectRowAt.row == 1) {
+            }
+            break
+        case .samples:
+            if (didSelectRowAt.row == 0) {
+                
+                mode = .main
+                tableView.reloadData()
+            } else if didSelectRowAt.row < self.sampleCellList.count {
+                //print(tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text)
+                performSegue(withIdentifier: "edit", sender: self)
+            }
+            
+            break
+        case .saved:
+            break
+        }
+    }
+    
+    // functions
+    func reloadData(){
+        sampleCellList = getSampleList()
+        sampleCellList.insert("back", at: 0)
+    }
+    
     
 }
