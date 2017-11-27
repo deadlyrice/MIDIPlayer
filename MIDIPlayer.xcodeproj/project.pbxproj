@@ -35,6 +35,9 @@
 		2586EC691FCC6C540090C8EB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC621FCC6C540090C8EB /* File.swift */; };
 		2586EC6A1FCC6C540090C8EB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC621FCC6C540090C8EB /* File.swift */; };
 		2586EC6B1FCC6C540090C8EB /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC621FCC6C540090C8EB /* File.swift */; };
+		2586EC701FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
+		2586EC711FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
+		2586EC721FCC727E0090C8EB /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC6F1FCC727E0090C8EB /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,7 @@
 		2586EC601FCC6C540090C8EB /* MIDIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIManager.swift; sourceTree = "<group>"; };
 		2586EC611FCC6C540090C8EB /* MIDIFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFileManager.swift; sourceTree = "<group>"; };
 		2586EC621FCC6C540090C8EB /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		2586EC6F1FCC727E0090C8EB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +129,10 @@
 		2586EC1F1FCC6A680090C8EB /* MIDIPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				2586EC5B1FCC6C0C0090C8EB /* import from hp */,
+				2586EC6E1FCC70120090C8EB /* UI */,
+				2586EC6D1FCC6D560090C8EB /* entities */,
+				2586EC6C1FCC6D2E0090C8EB /* utilities */,
+				2586EC5B1FCC6C0C0090C8EB /* managers */,
 				2586EC4E1FCC6AF00090C8EB /* samples */,
 				2586EC201FCC6A680090C8EB /* AppDelegate.swift */,
 				2586EC221FCC6A680090C8EB /* ViewController.swift */,
@@ -165,15 +172,37 @@
 			path = samples;
 			sourceTree = "<group>";
 		};
-		2586EC5B1FCC6C0C0090C8EB /* import from hp */ = {
+		2586EC5B1FCC6C0C0090C8EB /* managers */ = {
+			isa = PBXGroup;
+			children = (
+				2586EC611FCC6C540090C8EB /* MIDIFileManager.swift */,
+				2586EC601FCC6C540090C8EB /* MIDIManager.swift */,
+			);
+			path = managers;
+			sourceTree = "<group>";
+		};
+		2586EC6C1FCC6D2E0090C8EB /* utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2586EC5C1FCC6C400090C8EB /* CheckError.swift */,
+			);
+			path = utilities;
+			sourceTree = "<group>";
+		};
+		2586EC6D1FCC6D560090C8EB /* entities */ = {
 			isa = PBXGroup;
 			children = (
 				2586EC621FCC6C540090C8EB /* File.swift */,
-				2586EC611FCC6C540090C8EB /* MIDIFileManager.swift */,
-				2586EC601FCC6C540090C8EB /* MIDIManager.swift */,
-				2586EC5C1FCC6C400090C8EB /* CheckError.swift */,
 			);
-			path = "import from hp";
+			path = entities;
+			sourceTree = "<group>";
+		};
+		2586EC6E1FCC70120090C8EB /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				2586EC6F1FCC727E0090C8EB /* TableViewController.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -320,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC661FCC6C540090C8EB /* MIDIFileManager.swift in Sources */,
+				2586EC701FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC691FCC6C540090C8EB /* File.swift in Sources */,
 				2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */,
 				2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */,
@@ -333,6 +363,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC6A1FCC6C540090C8EB /* File.swift in Sources */,
+				2586EC711FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC361FCC6A680090C8EB /* MIDIPlayerTests.swift in Sources */,
 				2586EC5E1FCC6C400090C8EB /* CheckError.swift in Sources */,
 				2586EC671FCC6C540090C8EB /* MIDIFileManager.swift in Sources */,
@@ -345,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC6B1FCC6C540090C8EB /* File.swift in Sources */,
+				2586EC721FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC411FCC6A680090C8EB /* MIDIPlayerUITests.swift in Sources */,
 				2586EC5F1FCC6C400090C8EB /* CheckError.swift in Sources */,
 				2586EC681FCC6C540090C8EB /* MIDIFileManager.swift in Sources */,
@@ -375,6 +407,7 @@
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
+			usesTabs = 0;
 		};
 		2586EC291FCC6A680090C8EB /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;

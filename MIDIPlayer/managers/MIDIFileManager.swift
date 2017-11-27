@@ -14,7 +14,10 @@ class MIDIFileManager {
     init () {
         midiFileList = Array<File>()
         extractAllMIDIFiles()
-        print(midiFileList)
+        for i in midiFileList{
+            print(i.fileName)
+            print(i.path)
+        }
     }
     
     func extractAllMIDIFiles() {
