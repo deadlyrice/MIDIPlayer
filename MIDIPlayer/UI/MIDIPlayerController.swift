@@ -8,13 +8,17 @@
 
 import Foundation
 import UIKit
+import AudioToolbox
 
 class MIDIPlayerController: UIViewController {
+    
+    var musicSequence:MusicSequence!
+    var fileName:String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        print(fileName)
     }
     
     // button action
@@ -23,5 +27,8 @@ class MIDIPlayerController: UIViewController {
         
     }
     
+    @IBAction func save(_ sender: UIButton) {
+        createMIDIFile(sequence: musicSequence, filename: fileName, ext: "mid")
+    }
     
 }

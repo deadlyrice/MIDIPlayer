@@ -20,9 +20,11 @@ class TableViewController:UITableViewController {
     var mainMenuCellList = ["Samples","Saved MIDI Files"]
     var sampleCellList:Array<String>!
     var savedCellList:Array<String>!
+    var selectedRowName:String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        reloadData()
     }
     
     // override
@@ -39,9 +41,9 @@ class TableViewController:UITableViewController {
             return self.sampleCellList.count
             
         case .saved:
-            break
+            return self.savedCellList.count
         }
-        return 0
+        //return 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,6 +60,7 @@ class TableViewController:UITableViewController {
             break
             
         case .saved:
+            cell.textLabel?.text = self.savedCellList[indexPath.row]
             break
         }
         return cell
@@ -72,6 +75,9 @@ class TableViewController:UITableViewController {
                 tableView.reloadData()
                 
             } else if (didSelectRowAt.row == 1) {
+                mode = .saved
+                self.reloadData()
+                tableView.reloadData()
             }
             break
         case .samples:
@@ -81,12 +87,30 @@ class TableViewController:UITableViewController {
                 tableView.reloadData()
             } else if didSelectRowAt.row < self.sampleCellList.count {
                 //print(tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text)
+                self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
                 performSegue(withIdentifier: "edit", sender: self)
             }
             
             break
         case .saved:
+            if (didSelectRowAt.row == 0) {
+                
+                mode = .main
+                tableView.reloadData()
+            } 
+            
             break
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if(segue.identifier == "edit") {
+            if selectedRowName != nil {
+                let midiPlayerController = (segue.destination as! MIDIPlayerController)
+                midiPlayerController.fileName = selectedRowName!
+                midiPlayerController.musicSequence = getSequenceFromASampleFile(fileName: self.selectedRowName!)
+            }
+            
         }
     }
     
@@ -94,6 +118,10 @@ class TableViewController:UITableViewController {
     func reloadData(){
         sampleCellList = getSampleList()
         sampleCellList.insert("back", at: 0)
+        savedCellList = getSavedList()
+        savedCellList.insert("back", at: 0)
+        savedCellList.insert("create a new midi file", at: 1)
+        
     }
     
     

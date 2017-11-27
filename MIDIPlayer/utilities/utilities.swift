@@ -35,6 +35,35 @@ func getSampleList() -> Array<String> {
     return sampleList
 }
 
+func getSavedList() -> Array<String> {
+    var savedList = [String]()
+    
+    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    let folderURL = URL(fileURLWithPath: documentsDirectory, isDirectory: true)
+    let fileManager = FileManager.default
+    let keys = [URLResourceKey.isDirectoryKey, URLResourceKey.localizedNameKey]
+    let options: FileManager.DirectoryEnumerationOptions = [.skipsPackageDescendants, .skipsSubdirectoryDescendants, .skipsHiddenFiles]
+    let enumerator = fileManager.enumerator(
+        at: folderURL,
+        includingPropertiesForKeys: keys,
+        options: options,
+        errorHandler: {(url, error) -> Bool in
+            return true
+    })
+    
+    if enumerator != nil {
+        while let file = enumerator!.nextObject() {
+            let pathURL = URL(fileURLWithPath: (file as! URL).absoluteString, relativeTo: folderURL)
+            if pathURL.path.hasSuffix(".mid"){
+                savedList.append(pathURL.pathComponents.last!)
+            }
+        }
+    }
+    
+    return savedList
+    
+}
+
 func getSequenceFromASampleFile(fileName:String) -> MusicSequence {
     
     var musicSequence:MusicSequence?
@@ -45,4 +74,50 @@ func getSequenceFromASampleFile(fileName:String) -> MusicSequence {
     }
     return musicSequence!
     
+}
+
+func createMIDIFile(sequence:MusicSequence, filename:String, ext:String)  {
+    
+    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    
+    var name = filename
+    if !name.hasSuffix(".mid"){
+        name.append(ext)
+    }
+    
+    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent("\(name)") {
+        
+        print("creating midi file at \(fileURL)")
+        
+        let timeResolution = determineTimeResolution(musicSequence: sequence)
+        let status = MusicSequenceFileCreate(sequence, fileURL as CFURL, .midiType, [.eraseFile], Int16(timeResolution))
+        if status != noErr {
+            CheckError(status)
+        }
+    }
+}
+
+func determineTimeResolution(musicSequence:MusicSequence) -> UInt32 {
+    var track:MusicTrack?
+    var status = MusicSequenceGetTempoTrack(musicSequence, &track)
+    
+    if let tempoTrack = track {
+        var propertyLength = UInt32(0)
+        
+        var timeResolution = UInt32(0)
+        status = MusicTrackGetProperty(tempoTrack,
+                                       kSequenceTrackProperty_TimeResolution,
+                                       &timeResolution,
+                                       &propertyLength)
+        
+        if status != noErr {
+            CheckError(status)
+            
+        }
+        
+        return timeResolution
+    } else {
+        print("error getting tempo track")
+        return 0
+    }
 }
