@@ -14,6 +14,7 @@ class MIDIPlayerController: UIViewController {
     
     var musicSequence:MusicSequence!
     var fileName:String!
+    var mode:TableMode!
     
     override func viewDidLoad() {
         super.viewDidLoad()

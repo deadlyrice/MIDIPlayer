@@ -38,6 +38,7 @@
 		2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 		2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 		2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
+		2586EC7C1FCDA2040090C8EB /* CreatingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		2586EC6F1FCC727E0090C8EB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		2586EC731FCC8A010090C8EB /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
 		2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPlayerController.swift; sourceTree = "<group>"; };
+		2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingPageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 			children = (
 				2586EC6F1FCC727E0090C8EB /* TableViewController.swift */,
 				2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */,
+				2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2586EC7C1FCDA2040090C8EB /* CreatingPageViewController.swift in Sources */,
 				2586EC701FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */,
 				2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */,

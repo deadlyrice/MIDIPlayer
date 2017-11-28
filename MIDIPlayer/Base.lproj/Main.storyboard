@@ -35,11 +35,64 @@
                     </tableView>
                     <connections>
                         <segue destination="a8x-AR-xRp" kind="presentation" identifier="edit" id="8a1-7U-uJH"/>
+                        <segue destination="vZz-qo-AVp" kind="presentation" identifier="create a new midi file" id="Ajq-Lj-bQA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UG2-M6-6EU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-450" y="-32"/>
+        </scene>
+        <!--Creating Page View Controller-->
+        <scene sceneID="kcv-qW-nid">
+            <objects>
+                <viewController id="vZz-qo-AVp" customClass="CreatingPageViewController" customModule="MIDIPlayer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="qaE-fW-hqL">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please enter the file name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xG-Ie-LlE">
+                                <rect key="frame" x="17" y="20" width="340" height="85"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cHV-RJ-Vse">
+                                <rect key="frame" x="16" y="113" width="340" height="30"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AfV-um-ejx">
+                                <rect key="frame" x="17" y="151" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="cancel"/>
+                                <connections>
+                                    <action selector="cancel:" destination="vZz-qo-AVp" eventType="touchUpInside" id="S22-l7-6xz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ejh-TV-qg8">
+                                <rect key="frame" x="311" y="151" width="44" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="create"/>
+                                <connections>
+                                    <action selector="create:" destination="vZz-qo-AVp" eventType="touchUpInside" id="Oql-ti-sD3"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="NEl-FN-0Ah"/>
+                    </view>
+                    <connections>
+                        <outlet property="fileNameTextField" destination="cHV-RJ-Vse" id="BPy-rN-aTq"/>
+                        <segue destination="a8x-AR-xRp" kind="presentation" identifier="edit" id="zVW-TG-rKR"/>
+                        <segue destination="8mB-EZ-hV5" kind="presentation" identifier="cancel" id="Ipc-I5-X2V"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nYy-b4-pND" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="645.60000000000002" y="-32.833583208395808"/>
         </scene>
         <!--Player Controller-->
         <scene sceneID="mca-zb-7ag">
@@ -79,7 +132,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJ3-hv-MN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="420" y="-32.833583208395808"/>
+            <point key="canvasLocation" x="647" y="-752"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="zVW-TG-rKR"/>
+        <segue reference="Ipc-I5-X2V"/>
+    </inferredMetricsTieBreakers>
 </document>

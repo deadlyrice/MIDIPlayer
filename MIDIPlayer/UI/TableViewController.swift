@@ -10,14 +10,14 @@ import Foundation
 import UIKit
 
 enum TableMode:Int {
-    case main, samples, saved
+    case main, samples, saved, create
 }
 
 class TableViewController:UITableViewController {
     
     var mode = TableMode.main
     
-    var mainMenuCellList = ["Samples","Saved MIDI Files"]
+    var mainMenuCellList = ["Samples","Saved MIDI Files", "Create a new MIDI file"]
     var sampleCellList:Array<String>!
     var savedCellList:Array<String>!
     var selectedRowName:String?
@@ -42,6 +42,8 @@ class TableViewController:UITableViewController {
             
         case .saved:
             return self.savedCellList.count
+        case .create:
+            return 0
         }
         //return 0
     }
@@ -62,6 +64,8 @@ class TableViewController:UITableViewController {
         case .saved:
             cell.textLabel?.text = self.savedCellList[indexPath.row]
             break
+        case .create:
+            break
         }
         return cell
     }
@@ -78,6 +82,11 @@ class TableViewController:UITableViewController {
                 mode = .saved
                 self.reloadData()
                 tableView.reloadData()
+            } else if (didSelectRowAt.row == 2) {
+                mode = .create
+                //print("create")
+                performSegue(withIdentifier: "create a new midi file", sender: self)
+                
             }
             break
         case .samples:
@@ -97,8 +106,18 @@ class TableViewController:UITableViewController {
                 
                 mode = .main
                 tableView.reloadData()
-            } 
+            } /*else if (didSelectRowAt.row == 1) {
+                //self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
+                performSegue(withIdentifier: "create a new midi file", sender: self)
+                
+            }*/ else if (didSelectRowAt.row < self.savedCellList.count) {
+                self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
+                performSegue(withIdentifier: "edit", sender: self)
+                
+            }
             
+            break
+        case .create:
             break
         }
     }
@@ -111,7 +130,7 @@ class TableViewController:UITableViewController {
                 midiPlayerController.musicSequence = getSequenceFromASampleFile(fileName: self.selectedRowName!)
             }
             
-        }
+        } 
     }
     
     // functions
@@ -120,7 +139,6 @@ class TableViewController:UITableViewController {
         sampleCellList.insert("back", at: 0)
         savedCellList = getSavedList()
         savedCellList.insert("back", at: 0)
-        savedCellList.insert("create a new midi file", at: 1)
         
     }
     
