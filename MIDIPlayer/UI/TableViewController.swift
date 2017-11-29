@@ -105,8 +105,6 @@ class TableViewController:UITableViewController {
                 
             }
             break
-        case .create:
-            break
         default:
             break
         }

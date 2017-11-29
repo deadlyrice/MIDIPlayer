@@ -62,6 +62,10 @@ class MIDIPlayerController: UIViewController {
     
     @IBAction func save(_ sender: UIButton) {
         createMIDIFile(sequence: musicSequence!, fileName: fileName)
+        let alert = UIAlertController(title: "\(fileName!) has been saved", message: nil, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "Ok", style: .cancel, handler: nil)
+        alert.addAction(alertAction)
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func play(_ sender: UIButton) {
@@ -71,11 +75,10 @@ class MIDIPlayerController: UIViewController {
             avMIDIPlayer?.stop()
             sender.titleLabel?.text = "play"
             sender.setTitle("play", for: .normal)
-        } else {
+        } else  {
             
             avMIDIPlayer?.play({ () -> Void in
                 print("finished")
-                //self.avMIDIPlayer?.currentPosition = 0
             })
             sender.setTitle("stop", for: .normal)
         }

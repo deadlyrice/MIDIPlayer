@@ -149,6 +149,36 @@ func deleteAFile(fileName:String) {
     
 }
 
+func renameAFile(fileName:String, newName:String) {
+    
+    let fileManager = FileManager.default
+    
+    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    
+    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(fileName) {
+        
+        var name = newName
+        if !name.hasSuffix(".mid"){
+            name.append(".mid")
+        }
+        
+        print("rename \(fileName) to \(name)")
+        
+        
+        if let newFileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(name){
+            do {
+                try fileManager.moveItem(at: fileURL, to: newFileURL)
+            } catch let e as NSError {
+                print("error: \(e)")
+            
+            }
+        }
+    }
+    
+    
+}
+
+
 func determineTimeResolution(musicSequence:MusicSequence) -> UInt32 {
     var track:MusicTrack?
     var status = MusicSequenceGetTempoTrack(musicSequence, &track)

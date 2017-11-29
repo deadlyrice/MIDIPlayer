@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class RenamePageController: ViewController {
+class RenamePageController: ViewController, UITextFieldDelegate {
     
     var fileName:String!
     
@@ -19,9 +19,12 @@ class RenamePageController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fileNameTextField.delegate = self
         fileNameTextField.text = fileName
         fileNameTextField.becomeFirstResponder()
         fileNameTextField.selectAll(nil)
+        
+        
         
     }
     
@@ -33,6 +36,10 @@ class RenamePageController: ViewController {
         
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
     
     // action
     @IBAction func cancel(_ sender: UIButton) {
@@ -40,7 +47,18 @@ class RenamePageController: ViewController {
     }
     
     @IBAction func rename(_ sender: UIButton) {
-        
+        if let newName = fileNameTextField.text {
+            if newName != "" {
+                renameAFile(fileName: fileName, newName: newName)
+                performSegue(withIdentifier: "cancel", sender: self)
+            } else {
+                print("please enter a name")
+                
+            }
+        } else {
+            
+            print("name is nil")
+        }
     }
     
     
