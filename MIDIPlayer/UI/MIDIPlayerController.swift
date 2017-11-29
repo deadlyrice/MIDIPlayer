@@ -36,6 +36,7 @@ class MIDIPlayerController: UIViewController {
     
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var durationLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +47,8 @@ class MIDIPlayerController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         
-        timeTextField.text = "\(avMIDIPlayer!.currentPosition)"
+        timeTextField.text = "\((avMIDIPlayer!.currentPosition * 100).rounded(.up)/100)"
+        durationLabel.text = "\((avMIDIPlayer!.duration*100).rounded(.up)/100)"
   
     }
     
@@ -74,12 +76,12 @@ class MIDIPlayerController: UIViewController {
         
         if (avMIDIPlayer?.isPlaying)! {
             avMIDIPlayer?.stop()
-            print("stop")
-            sender.setTitle("play", for: .normal)
+            print("Stop")
+            sender.setTitle("Play", for: .normal)
         } else  {
             avMIDIPlayer?.play(nil)
             print("play")
-            sender.setTitle("stop", for: .normal)
+            sender.setTitle("Stop", for: .normal)
         }
  
     }
@@ -101,10 +103,10 @@ class MIDIPlayerController: UIViewController {
         
         if avMIDIPlayer!.isPlaying{
             timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
-            playButton.setTitle("stop", for: .normal)
+            playButton.setTitle("Stop", for: .normal)
         } else {
             
-            playButton.setTitle("play", for: .normal)
+            playButton.setTitle("Play", for: .normal)
         }
     }
     
@@ -145,10 +147,6 @@ class MIDIPlayerController: UIViewController {
     
     
     func createAVMIDIPlayer(musicSequence: MusicSequence) {
-        
-        //let bankURL = Bundle.main.url(forResource: "GeneralUser GS MuseScore v1.442", withExtension: "sf2")
-        
-        //print("create")
         
         // http://www.ntonyx.com/sf_f.htm
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
