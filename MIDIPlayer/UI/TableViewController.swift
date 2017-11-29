@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 enum TableMode:Int {
-    case main, samples, saved, create
+    case main, samples, saved, create, rename, delete
 }
 
 class TableViewController:UITableViewController {
@@ -44,6 +44,8 @@ class TableViewController:UITableViewController {
             return self.savedCellList.count
         case .create:
             return 0
+        default:
+            return 0
         }
         //return 0
     }
@@ -55,16 +57,33 @@ class TableViewController:UITableViewController {
             
         case .main:
             cell.textLabel?.text = self.mainMenuCellList[indexPath.row]
+            cell.textLabel?.textColor = UIColor.black
             break
             
         case .samples:
             cell.textLabel?.text = self.sampleCellList[indexPath.row]
+            if indexPath.row == 0 {
+                
+                cell.textLabel?.textColor = UIColor.black
+            } else {
+                cell.textLabel?.textColor = UIColor.red
+                
+            }
             break
             
         case .saved:
             cell.textLabel?.text = self.savedCellList[indexPath.row]
+            if indexPath.row == 0 {
+                
+                cell.textLabel?.textColor = UIColor.black
+            } else {
+                cell.textLabel?.textColor = UIColor.red
+                
+            }
             break
         case .create:
+            break
+        default:
             break
         }
         return cell
@@ -113,6 +132,8 @@ class TableViewController:UITableViewController {
             
             break
         case .create:
+            break
+        default:
             break
         }
     }

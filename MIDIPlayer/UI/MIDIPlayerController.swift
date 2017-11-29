@@ -32,18 +32,20 @@ class MIDIPlayerController: UIViewController {
     var avMIDIPlayer:AVMIDIPlayer?
     var fileName:String!
     var mode:TableMode!
+    var timer:Timer!
     
+    @IBOutlet weak var timeTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getMusicSequence()
         
-        //NewMusicPlayer(&musicPlayer)
-        //MusicPlayerSetSequence(musicPlayer!, musicSequence)
-        
         createAVMIDIPlayer(musicSequence: musicSequence!)
-        //createAVMIDIPlayerFromMIDIFIle()
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        
+  
     }
     
     override func didReceiveMemoryWarning() {
@@ -64,8 +66,6 @@ class MIDIPlayerController: UIViewController {
     @IBAction func play(_ sender: UIButton) {
         
         
-        //MusicPlayerStart(musicPlayer!)
-        
         if (avMIDIPlayer?.isPlaying)! {
             avMIDIPlayer?.stop()
             sender.titleLabel?.text = "play"
@@ -74,11 +74,21 @@ class MIDIPlayerController: UIViewController {
             
             avMIDIPlayer?.play({ () -> Void in
                 print("finished")
-                self.avMIDIPlayer?.currentPosition = 0
+                //self.avMIDIPlayer?.currentPosition = 0
             })
             sender.setTitle("stop", for: .normal)
         }
  
+    }
+    
+    @IBAction func reset(_ sender: UIButton) {
+        
+        avMIDIPlayer?.currentPosition = 0
+    }
+    
+    // selector
+    @objc func tick (){
+        timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
     }
     
     // override
@@ -88,6 +98,8 @@ class MIDIPlayerController: UIViewController {
             avMIDIPlayer?.stop()
         }
     }
+    
+    
     
     // functions
     func getMusicSequence () {
@@ -105,7 +117,7 @@ class MIDIPlayerController: UIViewController {
         case .create:
             NewMusicSequence(&musicSequence)
             MusicSequenceNewTrack(musicSequence!, &musicTrack)
-            //createATestingMIDIFile()
+            createATestingMIDIFile()
             
             break
         default:
@@ -153,6 +165,7 @@ class MIDIPlayerController: UIViewController {
         
     }
     
+    
     func createAVMIDIPlayerFromMIDIFIle() {
         
         let midiFileURL = Bundle.main.url(forResource: fileName, withExtension: nil)
@@ -167,41 +180,35 @@ class MIDIPlayerController: UIViewController {
         }
         
         self.avMIDIPlayer?.prepareToPlay()
-        //setupSlider()
     }
     
     func createATestingMIDIFile(){
         
         var time = MusicTimeStamp(2.0)
         
-        insertANote(note: Notes.C4.rawValue, time: time, duration:8)
+        insertANote(note: Notes.C4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.D4.rawValue, time: time, duration:7)
+        insertANote(note: Notes.D4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.E4.rawValue, time: time, duration:6)
+        insertANote(note: Notes.E4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.F4.rawValue, time: time, duration:5)
+        insertANote(note: Notes.F4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.G4.rawValue, time: time, duration:4)
+        insertANote(note: Notes.G4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.A4.rawValue, time: time, duration:3)
+        insertANote(note: Notes.A4.rawValue, time: time, duration:1)
         time+=1
         
-        insertANote(note: Notes.B4.rawValue, time: time, duration:2)
+        insertANote(note: Notes.B4.rawValue, time: time, duration:1)
         time+=1
         
         insertANote(note: Notes.C5.rawValue, time: time)
         time+=1
-        
-        insertANote(note: Notes.E5.rawValue, time: time)
-        
-        insertANote(note: Notes.C5.rawValue, time: time)
-        time+=0.5
         
         
     }

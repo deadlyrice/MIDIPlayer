@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CreatingPageViewController: UIViewController {
+class CreatingPageViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var fileNameTextField: UITextField!
     
@@ -17,6 +17,8 @@ class CreatingPageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        fileNameTextField.delegate = self
     }
     
     
@@ -30,6 +32,11 @@ class CreatingPageViewController: UIViewController {
             
             
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     
