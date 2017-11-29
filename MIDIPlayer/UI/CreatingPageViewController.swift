@@ -24,9 +24,9 @@ class CreatingPageViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == "edit") {
             
-            //let midiPlayerController = (segue.destination as! MIDIPlayerController)
-            //midiPlayerController.fileName = fileNameTextField.text
-            //midiPlayerController.musicSequence = getSequenceFromASampleFile(fileName: self.selectedRowName!)
+            let midiPlayerController = (segue.destination as! MIDIPlayerController)
+            midiPlayerController.fileName = fileNameTextField.text
+            midiPlayerController.mode = .create
             
             
         }
@@ -46,7 +46,7 @@ class CreatingPageViewController: UIViewController {
                 print("Please enter the file name.")
             } else {
                 print("Creating the file")
-                //performSegue(withIdentifier: "edit", sender: self)
+                performSegue(withIdentifier: "edit", sender: self)
             }
         } else {
             

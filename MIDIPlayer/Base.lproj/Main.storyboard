@@ -122,6 +122,15 @@
                                     <action selector="save:" destination="a8x-AR-xRp" eventType="touchUpInside" id="mcF-J0-TLq"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J2p-bm-u6F">
+                                <rect key="frame" x="150" y="400" width="80" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="35"/>
+                                <state key="normal" title="play"/>
+                                <connections>
+                                    <action selector="play:" destination="a8x-AR-xRp" eventType="touchUpInside" id="qkI-he-qxF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Lyr-Zn-xpC"/>
@@ -132,11 +141,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cJ3-hv-MN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="647" y="-752"/>
+            <point key="canvasLocation" x="645.60000000000002" y="-752.47376311844084"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="zVW-TG-rKR"/>
-        <segue reference="Ipc-I5-X2V"/>
+        <segue reference="rxn-rk-0FS"/>
     </inferredMetricsTieBreakers>
 </document>

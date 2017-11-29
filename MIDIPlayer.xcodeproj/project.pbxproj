@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2576BFE11FCE4BD8000B541D /* chop-pc1.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFE01FCE4BD8000B541D /* chop-pc1.mid */; };
+		2576BFE71FCE4E90000B541D /* beetps-1.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFE61FCE4E90000B541D /* beetps-1.mid */; };
+		2576BFE91FCE4E97000B541D /* beetps-2.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFE81FCE4E97000B541D /* beetps-2.mid */; };
+		2576BFEB1FCE4E9D000B541D /* beetps-3.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFEA1FCE4E9D000B541D /* beetps-3.mid */; };
 		2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC201FCC6A680090C8EB /* AppDelegate.swift */; };
 		2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC221FCC6A680090C8EB /* ViewController.swift */; };
 		2586EC261FCC6A680090C8EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC241FCC6A680090C8EB /* Main.storyboard */; };
@@ -14,15 +18,6 @@
 		2586EC2B1FCC6A680090C8EB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC291FCC6A680090C8EB /* LaunchScreen.storyboard */; };
 		2586EC361FCC6A680090C8EB /* MIDIPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC351FCC6A680090C8EB /* MIDIPlayerTests.swift */; };
 		2586EC411FCC6A680090C8EB /* MIDIPlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC401FCC6A680090C8EB /* MIDIPlayerUITests.swift */; };
-		2586EC501FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC4F1FCC6BBB0090C8EB /* Otzi_-_.mid */; };
-		2586EC511FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC4F1FCC6BBB0090C8EB /* Otzi_-_.mid */; };
-		2586EC521FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC4F1FCC6BBB0090C8EB /* Otzi_-_.mid */; };
-		2586EC541FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC531FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid */; };
-		2586EC551FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC531FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid */; };
-		2586EC561FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC531FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid */; };
-		2586EC581FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC571FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid */; };
-		2586EC591FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC571FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid */; };
-		2586EC5A1FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC571FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid */; };
 		2586EC5D1FCC6C400090C8EB /* CheckError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC5C1FCC6C400090C8EB /* CheckError.swift */; };
 		2586EC5E1FCC6C400090C8EB /* CheckError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC5C1FCC6C400090C8EB /* CheckError.swift */; };
 		2586EC5F1FCC6C400090C8EB /* CheckError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC5C1FCC6C400090C8EB /* CheckError.swift */; };
@@ -39,6 +34,7 @@
 		2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 		2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 		2586EC7C1FCDA2040090C8EB /* CreatingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */; };
+		2586EC811FCE27B90090C8EB /* GeneralUser GS MuseScore v1.442.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC801FCE27B90090C8EB /* GeneralUser GS MuseScore v1.442.sf2 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +55,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2576BFE01FCE4BD8000B541D /* chop-pc1.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "chop-pc1.mid"; sourceTree = "<group>"; };
+		2576BFE61FCE4E90000B541D /* beetps-1.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "beetps-1.mid"; sourceTree = "<group>"; };
+		2576BFE81FCE4E97000B541D /* beetps-2.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "beetps-2.mid"; sourceTree = "<group>"; };
+		2576BFEA1FCE4E9D000B541D /* beetps-3.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "beetps-3.mid"; sourceTree = "<group>"; };
 		2586EC1D1FCC6A680090C8EB /* MIDIPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2586EC201FCC6A680090C8EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2586EC221FCC6A680090C8EB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -72,15 +72,13 @@
 		2586EC3C1FCC6A680090C8EB /* MIDIPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MIDIPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2586EC401FCC6A680090C8EB /* MIDIPlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPlayerUITests.swift; sourceTree = "<group>"; };
 		2586EC421FCC6A680090C8EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2586EC4F1FCC6BBB0090C8EB /* Otzi_-_.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Otzi_-_.mid"; sourceTree = "<group>"; };
-		2586EC531FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Phats_and_Small_-_Turn_Around.mid"; sourceTree = "<group>"; };
-		2586EC571FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid"; sourceTree = "<group>"; };
 		2586EC5C1FCC6C400090C8EB /* CheckError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckError.swift; sourceTree = "<group>"; };
 		2586EC601FCC6C540090C8EB /* MIDIManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIManager.swift; sourceTree = "<group>"; };
 		2586EC6F1FCC727E0090C8EB /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		2586EC731FCC8A010090C8EB /* utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = utilities.swift; sourceTree = "<group>"; };
 		2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIPlayerController.swift; sourceTree = "<group>"; };
 		2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatingPageViewController.swift; sourceTree = "<group>"; };
+		2586EC801FCE27B90090C8EB /* GeneralUser GS MuseScore v1.442.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "GeneralUser GS MuseScore v1.442.sf2"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,8 +129,9 @@
 		2586EC1F1FCC6A680090C8EB /* MIDIPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				2586EC6E1FCC70120090C8EB /* UI */,
 				2586EC6D1FCC6D560090C8EB /* entities */,
+				2586EC6E1FCC70120090C8EB /* UI */,
+				2586EC7D1FCE21170090C8EB /* sound bank */,
 				2586EC6C1FCC6D2E0090C8EB /* utilities */,
 				2586EC5B1FCC6C0C0090C8EB /* managers */,
 				2586EC4E1FCC6AF00090C8EB /* samples */,
@@ -167,9 +166,10 @@
 		2586EC4E1FCC6AF00090C8EB /* samples */ = {
 			isa = PBXGroup;
 			children = (
-				2586EC571FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid */,
-				2586EC531FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid */,
-				2586EC4F1FCC6BBB0090C8EB /* Otzi_-_.mid */,
+				2576BFE01FCE4BD8000B541D /* chop-pc1.mid */,
+				2576BFE61FCE4E90000B541D /* beetps-1.mid */,
+				2576BFE81FCE4E97000B541D /* beetps-2.mid */,
+				2576BFEA1FCE4E9D000B541D /* beetps-3.mid */,
 			);
 			path = samples;
 			sourceTree = "<group>";
@@ -206,6 +206,14 @@
 				2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		2586EC7D1FCE21170090C8EB /* sound bank */ = {
+			isa = PBXGroup;
+			children = (
+				2586EC801FCE27B90090C8EB /* GeneralUser GS MuseScore v1.442.sf2 */,
+			);
+			path = "sound bank";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -315,12 +323,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2586EC541FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */,
-				2586EC501FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */,
-				2586EC581FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */,
+				2586EC811FCE27B90090C8EB /* GeneralUser GS MuseScore v1.442.sf2 in Resources */,
 				2586EC2B1FCC6A680090C8EB /* LaunchScreen.storyboard in Resources */,
+				2576BFE91FCE4E97000B541D /* beetps-2.mid in Resources */,
 				2586EC281FCC6A680090C8EB /* Assets.xcassets in Resources */,
+				2576BFE71FCE4E90000B541D /* beetps-1.mid in Resources */,
 				2586EC261FCC6A680090C8EB /* Main.storyboard in Resources */,
+				2576BFE11FCE4BD8000B541D /* chop-pc1.mid in Resources */,
+				2576BFEB1FCE4E9D000B541D /* beetps-3.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -328,9 +338,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2586EC511FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */,
-				2586EC551FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */,
-				2586EC591FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,9 +345,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2586EC521FCC6BBB0090C8EB /* Otzi_-_.mid in Resources */,
-				2586EC561FCC6BCD0090C8EB /* Phats_and_Small_-_Turn_Around.mid in Resources */,
-				2586EC5A1FCC6BD40090C8EB /* Laura_Shigihara_-_Plants_Vs_Zombies_-_Watery_Grave_Piano.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

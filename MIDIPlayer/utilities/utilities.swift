@@ -69,25 +69,58 @@ func getSequenceFromASampleFile(fileName:String) -> MusicSequence {
     var musicSequence:MusicSequence?
     NewMusicSequence(&musicSequence)
     
-    if let fileURL = Bundle.main.url(forResource: fileName, withExtension: "mid"){
-        MusicSequenceFileLoad(musicSequence!, fileURL as CFURL, MusicSequenceFileTypeID.midiType, MusicSequenceLoadFlags.smf_ChannelsToTracks)
+    var name = fileName
+    if !name.hasSuffix(".mid"){
+        name.append(".mid")
+    }
+    
+    if let fileURL = Bundle.main.url(forResource: name, withExtension: nil){
+        
+        //print(fileURL)
+        MusicSequenceFileLoad(musicSequence!,
+                              fileURL as CFURL,
+                              .midiType,
+                              .smf_ChannelsToTracks)
     }
     return musicSequence!
     
 }
 
-func createMIDIFile(sequence:MusicSequence, filename:String, ext:String)  {
+func getSequenceFromASavedFile(fileName:String) -> MusicSequence {
+    
+    var musicSequence:MusicSequence?
+    NewMusicSequence(&musicSequence)
+    
+    var name = fileName
+    if !name.hasSuffix(".mid"){
+        name.append(".mid")
+    }
     
     let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     
-    var name = filename
+    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(name) {
+        //print(fileURL)
+        MusicSequenceFileLoad(musicSequence!,
+                              fileURL as CFURL,
+                              .midiType,
+                              .smf_ChannelsToTracks)
+    }
+    return musicSequence!
+    
+}
+
+func createMIDIFile(sequence:MusicSequence, fileName:String)  {
+    
+    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    
+    var name = fileName
     if !name.hasSuffix(".mid"){
-        name.append(ext)
+        name.append(".mid")
     }
     
-    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent("\(name)") {
+    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(name) {
         
-        print("creating midi file at \(fileURL)")
+        //print("creating midi file at \(fileURL)")
         
         let timeResolution = determineTimeResolution(musicSequence: sequence)
         let status = MusicSequenceFileCreate(sequence, fileURL as CFURL, .midiType, [.eraseFile], Int16(timeResolution))

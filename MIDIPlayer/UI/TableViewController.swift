@@ -84,7 +84,6 @@ class TableViewController:UITableViewController {
                 tableView.reloadData()
             } else if (didSelectRowAt.row == 2) {
                 mode = .create
-                //print("create")
                 performSegue(withIdentifier: "create a new midi file", sender: self)
                 
             }
@@ -95,7 +94,7 @@ class TableViewController:UITableViewController {
                 mode = .main
                 tableView.reloadData()
             } else if didSelectRowAt.row < self.sampleCellList.count {
-                //print(tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text)
+                
                 self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
                 performSegue(withIdentifier: "edit", sender: self)
             }
@@ -106,11 +105,7 @@ class TableViewController:UITableViewController {
                 
                 mode = .main
                 tableView.reloadData()
-            } /*else if (didSelectRowAt.row == 1) {
-                //self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
-                performSegue(withIdentifier: "create a new midi file", sender: self)
-                
-            }*/ else if (didSelectRowAt.row < self.savedCellList.count) {
+            } else if (didSelectRowAt.row < self.savedCellList.count) {
                 self.selectedRowName = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text
                 performSegue(withIdentifier: "edit", sender: self)
                 
@@ -127,7 +122,8 @@ class TableViewController:UITableViewController {
             if selectedRowName != nil {
                 let midiPlayerController = (segue.destination as! MIDIPlayerController)
                 midiPlayerController.fileName = selectedRowName!
-                midiPlayerController.musicSequence = getSequenceFromASampleFile(fileName: self.selectedRowName!)
+                midiPlayerController.mode = mode
+                
             }
             
         } 
