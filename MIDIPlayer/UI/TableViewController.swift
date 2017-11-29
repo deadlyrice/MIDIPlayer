@@ -186,9 +186,20 @@ class TableViewController:UITableViewController {
                 tableView.reloadData()
             } else if (didSelectRowAt.row < self.savedCellList.count) {
                 if let name = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text {
-                    deleteAFile(fileName: name)
-                    mode = .main
-                    tableView.reloadData()
+                    let alert = UIAlertController(title: "Are you sure to delete \(name)?", message: nil, preferredStyle: .alert)
+                    let alertNOAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+                    alert.addAction(alertNOAction)
+                    let alertYESAction = UIAlertAction(title: "Yes", style: .default , handler: {(UIAlertAction) in
+                        deleteAFile(fileName: name)
+                        self.mode = .main
+                        tableView.reloadData()
+                        
+                    })
+                    alert.addAction(alertYESAction)
+                    self.present(alert, animated: true, completion: nil)
+                
+                
+                    
                 }
             }
         default:
@@ -220,6 +231,7 @@ class TableViewController:UITableViewController {
         savedCellList.insert("back", at: 0)
         
     }
+    
     
     
 }

@@ -35,6 +35,7 @@ class MIDIPlayerController: UIViewController {
     var timer:Timer!
     
     @IBOutlet weak var timeTextField: UITextField!
+    @IBOutlet weak var playButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,13 +74,11 @@ class MIDIPlayerController: UIViewController {
         
         if (avMIDIPlayer?.isPlaying)! {
             avMIDIPlayer?.stop()
-            sender.titleLabel?.text = "play"
+            print("stop")
             sender.setTitle("play", for: .normal)
         } else  {
-            
-            avMIDIPlayer?.play({ () -> Void in
-                print("finished")
-            })
+            avMIDIPlayer?.play(nil)
+            print("play")
             sender.setTitle("stop", for: .normal)
         }
  
@@ -93,8 +92,19 @@ class MIDIPlayerController: UIViewController {
     
     // selector
     @objc func tick (){
+        
+        if (avMIDIPlayer!.duration * 100).rounded(.up) <= (avMIDIPlayer!.currentPosition*100).rounded(.up) {
+            print("it is the end")
+            avMIDIPlayer?.currentPosition = 0
+            avMIDIPlayer?.stop()
+        }
+        
         if avMIDIPlayer!.isPlaying{
-            timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
+            timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
+            playButton.setTitle("stop", for: .normal)
+        } else {
+            
+            playButton.setTitle("play", for: .normal)
         }
     }
     
@@ -138,6 +148,8 @@ class MIDIPlayerController: UIViewController {
         
         //let bankURL = Bundle.main.url(forResource: "GeneralUser GS MuseScore v1.442", withExtension: "sf2")
         
+        //print("create")
+        
         // http://www.ntonyx.com/sf_f.htm
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
@@ -145,7 +157,7 @@ class MIDIPlayerController: UIViewController {
         var data: Unmanaged<CFData>?
         
         let resolution = determineTimeResolution(musicSequence: musicSequence)
-        print(resolution)
+        //print(resolution)
         
         status = MusicSequenceFileCreateData (musicSequence,
                                               .midiType,
@@ -191,27 +203,27 @@ class MIDIPlayerController: UIViewController {
     
     func createATestingMIDIFile(){
         
-        var time = MusicTimeStamp(2.0)
+        var time = MusicTimeStamp(1.0)
         
-        insertANote(note: Notes.C4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.C4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.D4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.D4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.E4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.E4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.F4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.F4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.G4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.G4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.A4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.A4.rawValue, time: time)
         time+=1
         
-        insertANote(note: Notes.B4.rawValue, time: time, duration:1)
+        insertANote(note: Notes.B4.rawValue, time: time)
         time+=1
         
         insertANote(note: Notes.C5.rawValue, time: time)
@@ -220,7 +232,7 @@ class MIDIPlayerController: UIViewController {
         
     }
     
-    func insertANote(note:UInt8, time:MusicTimeStamp, channel:UInt8 = 0, velocity:UInt8 = 60, releaseVelocity:UInt8 = 0, duration:Float32 = 1.0){
+    func insertANote(note:UInt8, time:MusicTimeStamp, channel:UInt8 = 0, velocity:UInt8 = 100, releaseVelocity:UInt8 = 0, duration:Float32 = 1.0){
         var note = MIDINoteMessage(channel: channel,
                                    note: note,
                                    velocity: velocity,
