@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2511188C1FCF5B3F006A4005 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511188B1FCF5B3F006A4005 /* Note.swift */; };
 		2576BFF91FCE5027000B541D /* 32MbGMStereo.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFF81FCE5027000B541D /* 32MbGMStereo.sf2 */; };
 		2576BFFB1FCE55AB000B541D /* MIDI_sample.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFA1FCE55AB000B541D /* MIDI_sample.mid */; };
 		2576BFFD1FCE5633000B541D /* teddybear.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFC1FCE5633000B541D /* teddybear.mid */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2511188B1FCF5B3F006A4005 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		2576BFF81FCE5027000B541D /* 32MbGMStereo.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 32MbGMStereo.sf2; sourceTree = "<group>"; };
 		2576BFFA1FCE55AB000B541D /* MIDI_sample.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = MIDI_sample.mid; sourceTree = "<group>"; };
 		2576BFFC1FCE5633000B541D /* teddybear.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = teddybear.mid; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 		2586EC6D1FCC6D560090C8EB /* entities */ = {
 			isa = PBXGroup;
 			children = (
+				2511188B1FCF5B3F006A4005 /* Note.swift */,
 			);
 			path = entities;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 				2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */,
 				2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */,
 				2586EC631FCC6C540090C8EB /* MIDIManager.swift in Sources */,
+				2511188C1FCF5B3F006A4005 /* Note.swift in Sources */,
 				2586EC741FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC5D1FCC6C400090C8EB /* CheckError.swift in Sources */,
 				2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,

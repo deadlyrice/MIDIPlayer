@@ -203,3 +203,32 @@ func determineTimeResolution(musicSequence:MusicSequence) -> UInt32 {
         return 0
     }
 }
+
+func getTrackListFromMusicSeqence(musicSequence: MusicSequence) -> Array<MusicTrack> {
+    var musicTrackList = Array<MusicTrack>()
+    
+    for i:UInt32 in 0...1000 {
+        var musicTrack:MusicTrack?
+        MusicSequenceGetIndTrack(musicSequence, i, &musicTrack)
+        
+        if (musicTrack == nil){
+            
+            break
+        } else {
+            musicTrackList.append(musicTrack!)
+            
+        }
+        
+    }
+    
+    print(musicTrackList.count)
+    
+    return musicTrackList
+}
+
+func getNoteListFromMusicTrack(musicTrack:MusicTrack) -> Array<Note> {
+    var noteList = Array<Note>()
+    
+    
+    return noteList
+}

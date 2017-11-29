@@ -43,6 +43,8 @@ class MIDIPlayerController: UIViewController {
         
         getMusicSequence()
         
+        let musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
+        
         createAVMIDIPlayer(musicSequence: musicSequence!)
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
