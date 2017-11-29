@@ -43,7 +43,7 @@ class MIDIPlayerController: UIViewController {
         //MusicPlayerSetSequence(musicPlayer!, musicSequence)
         
         createAVMIDIPlayer(musicSequence: musicSequence!)
-        print("again")
+        //createAVMIDIPlayerFromMIDIFIle()
     }
     
     override func didReceiveMemoryWarning() {
@@ -114,12 +114,13 @@ class MIDIPlayerController: UIViewController {
         
     }
     
+    
     func createAVMIDIPlayer(musicSequence: MusicSequence) {
         
+        //let bankURL = Bundle.main.url(forResource: "GeneralUser GS MuseScore v1.442", withExtension: "sf2")
         
-        let bankURL = Bundle.main.url(forResource: "GeneralUser GS MuseScore v1.442", withExtension: "sf2")
-        
-        //let bankURL = Bundle.main.url(forResource: "Compifont_13082016", withExtension: "sf2")
+        // http://www.ntonyx.com/sf_f.htm
+        let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
         var status = noErr
         var data: Unmanaged<CFData>?
@@ -150,6 +151,23 @@ class MIDIPlayerController: UIViewController {
             self.avMIDIPlayer?.prepareToPlay()
         }
         
+    }
+    
+    func createAVMIDIPlayerFromMIDIFIle() {
+        
+        let midiFileURL = Bundle.main.url(forResource: fileName, withExtension: nil)
+        
+        let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
+        
+        do {
+            try self.avMIDIPlayer = AVMIDIPlayer(contentsOf: midiFileURL!, soundBankURL: bankURL)
+            //print("created midi player with sound bank url \(bankURL)")
+        } catch let error {
+            print("Error \(error.localizedDescription)")
+        }
+        
+        self.avMIDIPlayer?.prepareToPlay()
+        //setupSlider()
     }
     
     func createATestingMIDIFile(){
