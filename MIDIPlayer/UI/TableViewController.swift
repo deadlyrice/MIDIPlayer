@@ -17,7 +17,7 @@ class TableViewController:UITableViewController {
     
     var mode = TableMode.main
     
-    var mainMenuCellList = ["Samples","Saved MIDI Files", "Create a new MIDI file"]
+    var mainMenuCellList = ["Samples","Saved MIDI Files", "Create a new MIDI file", "rename a MIDI file", "delete a MIDI file"]
     var sampleCellList:Array<String>!
     var savedCellList:Array<String>!
     var selectedRowName:String?
@@ -42,8 +42,11 @@ class TableViewController:UITableViewController {
             
         case .saved:
             return self.savedCellList.count
-        case .create:
-            return 0
+        case .rename:
+            return self.savedCellList.count
+            
+        case .delete:
+            return self.savedCellList.count
         default:
             return 0
         }
@@ -81,6 +84,27 @@ class TableViewController:UITableViewController {
                 
             }
             break
+        case .rename:
+            cell.textLabel?.text = self.savedCellList[indexPath.row]
+            if indexPath.row == 0 {
+                
+                cell.textLabel?.textColor = UIColor.black
+            } else {
+                cell.textLabel?.textColor = UIColor.red
+                
+            }
+            break
+            
+        case .delete:
+            cell.textLabel?.text = self.savedCellList[indexPath.row]
+            if indexPath.row == 0 {
+                
+                cell.textLabel?.textColor = UIColor.black
+            } else {
+                cell.textLabel?.textColor = UIColor.red
+                
+            }
+            break
         case .create:
             break
         default:
@@ -92,21 +116,35 @@ class TableViewController:UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt: IndexPath){
         switch mode {
         case .main:
-            if (didSelectRowAt.row == 0) {
+            switch didSelectRowAt.row {
+            case 0:
                 mode = .samples
                 self.reloadData()
                 tableView.reloadData()
-                
-            } else if (didSelectRowAt.row == 1) {
+                break
+            case 1:
                 mode = .saved
                 self.reloadData()
                 tableView.reloadData()
-            } else if (didSelectRowAt.row == 2) {
+                break
+            case 2:
                 mode = .create
                 performSegue(withIdentifier: "create a new midi file", sender: self)
+                break
+            case 3:
+                mode = .rename
+                self.reloadData()
+                tableView.reloadData()
+                break
+            case 4:
+                mode = .delete
+                self.reloadData()
+                tableView.reloadData()
+                break
                 
+            default:
+                break
             }
-            break
         case .samples:
             if (didSelectRowAt.row == 0) {
                 
@@ -131,8 +169,30 @@ class TableViewController:UITableViewController {
             }
             
             break
-        case .create:
-            break
+        case .rename:
+            if (didSelectRowAt.row == 0) {
+                
+                mode = .main
+                tableView.reloadData()
+            } else if (didSelectRowAt.row < self.savedCellList.count) {
+                if let name = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text {
+                    self.selectedRowName = name
+                    performSegue(withIdentifier: "rename", sender: self)
+                    
+                }
+            }
+        case .delete:
+            if (didSelectRowAt.row == 0) {
+                
+                mode = .main
+                tableView.reloadData()
+            } else if (didSelectRowAt.row < self.savedCellList.count) {
+                if let name = tableView.cellForRow(at: didSelectRowAt)?.textLabel?.text {
+                    deleteAFile(fileName: name)
+                    mode = .main
+                    tableView.reloadData()
+                }
+            }
         default:
             break
         }
@@ -147,7 +207,11 @@ class TableViewController:UITableViewController {
                 
             }
             
-        } 
+        } else if (segue.identifier == "rename") {
+            let renamePageController = (segue.destination as! RenamePageController)
+            renamePageController.fileName = selectedRowName!
+            
+        }
     }
     
     // functions

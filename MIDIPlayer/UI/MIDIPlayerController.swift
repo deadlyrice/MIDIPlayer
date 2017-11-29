@@ -45,6 +45,7 @@ class MIDIPlayerController: UIViewController {
         
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         
+        timeTextField.text = "\(avMIDIPlayer!.currentPosition)"
   
     }
     
@@ -84,11 +85,14 @@ class MIDIPlayerController: UIViewController {
     @IBAction func reset(_ sender: UIButton) {
         
         avMIDIPlayer?.currentPosition = 0
+        timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
     }
     
     // selector
     @objc func tick (){
-        timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
+        if avMIDIPlayer!.isPlaying{
+            timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
+        }
     }
     
     // override

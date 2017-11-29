@@ -130,6 +130,25 @@ func createMIDIFile(sequence:MusicSequence, fileName:String)  {
     }
 }
 
+func deleteAFile(fileName:String) {
+    
+    let fileManager = FileManager.default
+    
+    let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+    
+    if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(fileName) {
+        print("delete \(fileURL)")
+        do {
+            try fileManager.removeItem(at: fileURL)
+        } catch let e as NSError {
+            print("error: \(e)")
+            
+        }
+    }
+    
+    
+}
+
 func determineTimeResolution(musicSequence:MusicSequence) -> UInt32 {
     var track:MusicTrack?
     var status = MusicSequenceGetTempoTrack(musicSequence, &track)
