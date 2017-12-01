@@ -24,6 +24,18 @@ enum Notes:UInt8 {
     
 }
 
+let NoteString = ["","","","","","","","","","","","",
+                  "C0", "C#0", "D0", "D#0", "E0", "F0", "F#0", "G0", "G#0", "A0", "A#0", "B0",
+                  "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1", "A1", "A#1", "B1",
+                  "C2", "C#2", "D2", "D#2", "E2", "F2", "F#2", "G2", "G#2", "A2", "A#2", "B2",
+                  "C3", "C#3", "D3", "D#3", "E3", "F3", "F#3", "G3", "G#3", "A3", "A#3", "B3",
+                  "C4", "C#4", "D4", "D#4", "E4", "F4", "F#4", "G4", "G#4", "A4", "A#4", "B4",
+                  "C5", "C#5", "D5", "D#5", "E5", "F5", "F#5", "G5", "G#5", "A5", "A#5", "B5",
+                  "C6", "C#6", "D6", "D#6", "E6", "F6", "F#6", "G6", "G#6", "A6", "A#6", "B6",
+                  "C7", "C#7", "D7", "D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7",
+                  "C8"
+                  ]
+
 class MIDIPlayerController: UIViewController {
     
     var musicSequence:MusicSequence?
@@ -33,17 +45,26 @@ class MIDIPlayerController: UIViewController {
     var fileName:String!
     var mode:TableMode!
     var timer:Timer!
+    var musicTrackList:Array<MusicTrack>!
+    var noteList:Array<Note>!
+    
     
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         getMusicSequence()
         
-        let musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
+        musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
+        noteList = getNoteListFromMusicTrack(musicTrack: musicTrackList[0])
+        textView.isEditable = false
+        textView.isScrollEnabled = true
+        
+        updateTextView()
         
         createAVMIDIPlayer(musicSequence: musicSequence!)
         
@@ -239,6 +260,42 @@ class MIDIPlayerController: UIViewController {
                                    releaseVelocity: releaseVelocity,
                                    duration: duration )
         MusicTrackNewMIDINoteEvent(musicTrack!, time, &note)
+    }
+    
+    func updateTextView () {
+        
+        var index = 0
+        textView.insertText("Ind  |Note |CH   |Time |Dur  |RelV |Vel  \n")
+        
+        
+        for note in noteList {
+            var indexString = "\(index)".prefix(5)
+            indexString += String(repeating: " ", count: (5 - indexString.count))
+            
+            var noteString = NoteString[Int(note.noteInfo.note)].prefix(5)
+            noteString += String(repeating: " ", count: (5 - noteString.count))
+            
+            var channelString = "\(note.noteInfo.channel)".prefix(5)
+            channelString += String(repeating: " ", count: (5 - channelString.count))
+            
+            var timeString = "\(note.time!)".prefix(5)
+            timeString += String(repeating: " ", count: (5 - timeString.count))
+            
+            var durationString = "\(note.noteInfo.duration)".prefix(5)
+            durationString += String(repeating: " ", count: (5 - durationString.count))
+            
+            var releaseVelocityString = "\(note.noteInfo.releaseVelocity)".prefix(5)
+            releaseVelocityString += String(repeating: " ", count: (5 - releaseVelocityString.count))
+            
+            var velocityString = "\(note.noteInfo.velocity)".prefix(5)
+            velocityString += String(repeating: " ", count: (5 - velocityString.count))
+            
+            textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(durationString) \(releaseVelocityString) \(velocityString)\n")
+            index += 1
+        }
+        
+        //textView.textAlignment = NSTextAlignment.justified
+        
     }
     
 }

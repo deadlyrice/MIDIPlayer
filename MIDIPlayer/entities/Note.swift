@@ -10,6 +10,16 @@ import Foundation
 import AudioToolbox
 
 class Note {
+    
+    var noteInfo:MIDINoteMessage!
+    var time:MusicTimeStamp!
+    
+    init(noteInfo n:MIDINoteMessage, time t:MusicTimeStamp!) {
+        noteInfo = n
+        time = t
+    }
+    
+    /*
     var note:UInt8!
     var time:MusicTimeStamp!
     var channel:UInt8!
@@ -25,4 +35,5 @@ class Note {
         velocity = v
         releaseVelocity = rv
     }
+ */
 }

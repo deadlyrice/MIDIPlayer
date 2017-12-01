@@ -221,7 +221,7 @@ func getTrackListFromMusicSeqence(musicSequence: MusicSequence) -> Array<MusicTr
         
     }
     
-    print(musicTrackList.count)
+    //print("There are \(musicTrackList.count) music tracks")
     
     return musicTrackList
 }
@@ -229,6 +229,29 @@ func getTrackListFromMusicSeqence(musicSequence: MusicSequence) -> Array<MusicTr
 func getNoteListFromMusicTrack(musicTrack:MusicTrack) -> Array<Note> {
     var noteList = Array<Note>()
     
+    var hasCurrentEvent:DarwinBoolean = DarwinBoolean.init(true)
+    var musicEventIterator:MusicEventIterator?
+    var musicEventType:MusicEventType = 0
+    var musicTimeStamp:MusicTimeStamp = 0.0
+    var musicEventDataRef:UnsafeRawPointer?
+    var eventDataSize:UInt32 = 0
+    
+    NewMusicEventIterator(musicTrack, &musicEventIterator)
+    MusicEventIteratorHasCurrentEvent (musicEventIterator!, &hasCurrentEvent);
+    
+    while (hasCurrentEvent).boolValue {
+        // do work here
+        MusicEventIteratorGetEventInfo(musicEventIterator!, &musicTimeStamp, &musicEventType, &musicEventDataRef, &eventDataSize)
+        
+        if musicEventType == kMusicEventType_MIDINoteMessage {
+            let eventData = musicEventDataRef!.load(as: MIDINoteMessage.self)
+            let note = Note(noteInfo: eventData, time: musicTimeStamp)
+            noteList.append(note)
+            
+        }
+        MusicEventIteratorNextEvent (musicEventIterator!);
+        MusicEventIteratorHasCurrentEvent (musicEventIterator!, &hasCurrentEvent);
+    }
     
     return noteList
 }
