@@ -59,34 +59,36 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var trackTextField: UITextField!
     
-    var trackPickerView:UIPickerView!
+    var pickerView:UIPickerView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getMusicSequence()
+        let screenSize = UIScreen.main.bounds
+        pickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        trackTextField.inputView = pickerView
         
-        musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
-        noteList = getNoteListFromMusicTrack(musicTrack: musicTrackList[0])
         textView.isEditable = false
         textView.isScrollEnabled = true
-        
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
         
-        timeResolution = determineTimeResolution(musicSequence: musicSequence!)
-        createAVMIDIPlayer(musicSequence: musicSequence!)
-        updateTextView()
+        getMusicSequence()
+        reloadData()
+        
+        
+        
+        if musicTrackList.isEmpty || avMIDIPlayer == nil {
+            
+            return
+        }
+        
         
         timeTextField.text = "\((avMIDIPlayer!.currentPosition * 100).rounded(.up)/100)"
         durationLabel.text = "\((avMIDIPlayer!.duration*100).rounded(.up)/100)"
         
-        let screenSize = UIScreen.main.bounds
-        trackPickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
-        trackPickerView.delegate = self
-        trackPickerView.dataSource = self
-        trackTextField.inputView = trackPickerView
-        trackTextField.text = "Track 0"
         
   
     }
@@ -132,7 +134,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func play(_ sender: UIButton) {
-        
+        if (musicTrackList.isEmpty || avMIDIPlayer == nil) {return}
         
         if (avMIDIPlayer?.isPlaying)! {
             avMIDIPlayer?.stop()
@@ -148,17 +150,65 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func reset(_ sender: UIButton) {
         
+        if (musicTrackList.isEmpty || avMIDIPlayer == nil) {return}
+        
         avMIDIPlayer?.currentPosition = 0
         timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
     }
     
     @IBAction func deleteATrack(_ sender: UIButton) {
         print("delete a track")
+        
+        if musicTrackList.isEmpty {
+            
+            return
+        }
+        
+        MusicSequenceDisposeTrack(musicSequence!, musicTrack!)
+        reloadData()
+        pickerView.reloadAllComponents()
+        if (!musicTrackList.isEmpty) {
+            trackTextField.text = "Track 0"
+        }
     }
+    
+    @IBAction func addATrack(_ sender: UIButton) {
+        print("add a track")
+        
+        var newTrack:MusicTrack?
+        
+        if pickerView == nil {
+            let screenSize = UIScreen.main.bounds
+            pickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
+            pickerView.delegate = self
+            pickerView.dataSource = self
+            trackTextField.inputView = pickerView
+        }
+        
+        MusicSequenceNewTrack(musicSequence!, &newTrack)
+        reloadData()
+        pickerView.reloadAllComponents()
+    }
+    
+    @IBAction func addANote(_ sender: UIButton) {
+        print("Add a note")
+    }
+    
+    @IBAction func deleteANote(_ sender: UIButton) {
+        print("Delete A note")
+    }
+    
+    
+    
     
     
     // selector
     @objc func tick (){
+        
+        if musicTrackList.isEmpty || avMIDIPlayer == nil {
+            
+            return
+        }
         
         if (avMIDIPlayer!.duration * 100).rounded(.up) <= (avMIDIPlayer!.currentPosition*100).rounded(.up) {
             print("it is the end")
@@ -180,6 +230,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     // override
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (musicTrackList.isEmpty || avMIDIPlayer == nil) {return}
+        
         if (avMIDIPlayer?.isPlaying)! {
             avMIDIPlayer?.stop()
         }
@@ -204,6 +257,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             NewMusicSequence(&musicSequence)
             MusicSequenceNewTrack(musicSequence!, &musicTrack)
             createATestingMIDIFile()
+            mode = .saved
             
             break
         default:
@@ -221,13 +275,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         var status = noErr
         var data: Unmanaged<CFData>?
         
-        
-        //print(resolution)
-        
         status = MusicSequenceFileCreateData (musicSequence,
                                               .midiType,
                                               .eraseFile,
-                                              Int16(timeResolution), &data)
+                                              Int16(timeResolution),
+                                              &data)
         
         if status != noErr {
             CheckError(status)
@@ -297,7 +349,12 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
-    func insertANote(note:UInt8, time:MusicTimeStamp, channel:UInt8 = 0, velocity:UInt8 = 100, releaseVelocity:UInt8 = 0, duration:Float32 = 1.0){
+    func insertANote(note:UInt8,
+                     time:MusicTimeStamp,
+                     channel:UInt8 = 0,
+                     velocity:UInt8 = 100,
+                     releaseVelocity:UInt8 = 0,
+                     duration:Float32 = 1.0){
         var note = MIDINoteMessage(channel: channel,
                                    note: note,
                                    velocity: velocity,
@@ -369,7 +426,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             let length = (highlightLine.last! - highlightLine.first! + 1) * (textViewTitle.count)
             
             textView.selectedRange = NSMakeRange(startPosition , length)
-            textView.scrollRangeToVisible(NSMakeRange(startPosition, (textViewTitle.count * 14)))
+            textView.scrollRangeToVisible(NSMakeRange(startPosition, (textViewTitle.count * 10)))
    
             let attributedString = NSMutableAttributedString(string: textView.text)
             attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: textView.selectedRange)
@@ -384,6 +441,29 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         musicTrack = musicTrackList[index]
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
         updateTextView()
+    }
+    
+    func reloadData(){
+        
+        musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
+        if musicTrackList.isEmpty {
+            timeTextField.text = ""
+            durationLabel.text = ""
+            textView.text = ""
+            trackTextField.text = ""
+            
+            avMIDIPlayer = nil
+            timeResolution = determineTimeResolution(musicSequence: musicSequence!)
+            createAVMIDIPlayer(musicSequence: musicSequence!)
+            print(avMIDIPlayer?.duration)
+            return
+        }
+        musicTrack = musicTrackList[0]
+        noteList = getNoteListFromMusicTrack(musicTrack: musicTrackList[0])
+        timeResolution = determineTimeResolution(musicSequence: musicSequence!)
+        createAVMIDIPlayer(musicSequence: musicSequence!)
+        updateTextView()
+        trackTextField.text = "Track 0"
     }
     
 }
