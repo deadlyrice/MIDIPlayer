@@ -255,3 +255,28 @@ func getNoteListFromMusicTrack(musicTrack:MusicTrack) -> Array<Note> {
     
     return noteList
 }
+
+func getTempoTrack (musicSequence:MusicSequence) -> MusicTrack? {
+    var tempoTrack:MusicTrack?
+        
+    MusicSequenceGetTempoTrack(musicSequence, &tempoTrack)
+    
+    return tempoTrack
+    
+}
+
+func convertBeatToTime(inSequence:MusicSequence,inBeat:MusicTimeStamp) -> Float64 {
+    
+    var outSeconds:Float64 = 0
+    
+    MusicSequenceGetSecondsForBeats(inSequence, inBeat, &outSeconds)
+    return outSeconds
+}
+
+func convertTimeToBeat(inSequence:MusicSequence,inSeconds: Float64) -> MusicTimeStamp {
+    
+    var outBeat:MusicTimeStamp = 0
+    
+    MusicSequenceGetBeatsForSeconds(inSequence, inSeconds, &outBeat)
+    return outBeat
+}

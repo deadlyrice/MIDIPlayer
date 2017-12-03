@@ -36,7 +36,9 @@ let NoteString = ["","","","","","","","","","","","",
                   "C8"
                   ]
 
-class MIDIPlayerController: UIViewController {
+class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
     
     var musicSequence:MusicSequence?
     var musicTrack:MusicTrack?
@@ -47,12 +49,18 @@ class MIDIPlayerController: UIViewController {
     var timer:Timer!
     var musicTrackList:Array<MusicTrack>!
     var noteList:Array<Note>!
+    var timeResolution:UInt32!
+    let textViewTitle = "Index|Note |Channel|Time |Beat |Duration\n"
     
     
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var trackTextField: UITextField!
+    
+    var trackPickerView:UIPickerView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,19 +72,48 @@ class MIDIPlayerController: UIViewController {
         textView.isEditable = false
         textView.isScrollEnabled = true
         
-        updateTextView()
-        
-        createAVMIDIPlayer(musicSequence: musicSequence!)
-        
         timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        
+        timeResolution = determineTimeResolution(musicSequence: musicSequence!)
+        createAVMIDIPlayer(musicSequence: musicSequence!)
+        updateTextView()
         
         timeTextField.text = "\((avMIDIPlayer!.currentPosition * 100).rounded(.up)/100)"
         durationLabel.text = "\((avMIDIPlayer!.duration*100).rounded(.up)/100)"
+        
+        let screenSize = UIScreen.main.bounds
+        trackPickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
+        trackPickerView.delegate = self
+        trackPickerView.dataSource = self
+        trackTextField.inputView = trackPickerView
+        trackTextField.text = "Track 0"
+        
   
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    // UIPickerViewDataSource
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        
+        return musicTrackList.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "Track \(row)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        trackTextField.text = "Track \(row)"
+        self.view.endEditing(true)
+        changeTrack(index: row)
     }
     
     // button action
@@ -115,6 +152,11 @@ class MIDIPlayerController: UIViewController {
         timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
     }
     
+    @IBAction func deleteATrack(_ sender: UIButton) {
+        print("delete a track")
+    }
+    
+    
     // selector
     @objc func tick (){
         
@@ -127,6 +169,8 @@ class MIDIPlayerController: UIViewController {
         if avMIDIPlayer!.isPlaying{
             timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
             playButton.setTitle("Stop", for: .normal)
+            highlightPlayingNotesInTextView ()
+            
         } else {
             
             playButton.setTitle("Play", for: .normal)
@@ -177,13 +221,13 @@ class MIDIPlayerController: UIViewController {
         var status = noErr
         var data: Unmanaged<CFData>?
         
-        let resolution = determineTimeResolution(musicSequence: musicSequence)
+        
         //print(resolution)
         
         status = MusicSequenceFileCreateData (musicSequence,
                                               .midiType,
                                               .eraseFile,
-                                              Int16(resolution), &data)
+                                              Int16(timeResolution), &data)
         
         if status != noErr {
             CheckError(status)
@@ -264,38 +308,82 @@ class MIDIPlayerController: UIViewController {
     
     func updateTextView () {
         
-        var index = 0
-        textView.insertText("Ind  |Note |CH   |Time |Dur  |RelV |Vel  \n")
+        textView.text = ""
+        textView.insertText(textViewTitle)
         
-        
-        for note in noteList {
+        for (index,note) in noteList.enumerated() {
             var indexString = "\(index)".prefix(5)
             indexString += String(repeating: " ", count: (5 - indexString.count))
             
             var noteString = NoteString[Int(note.noteInfo.note)].prefix(5)
             noteString += String(repeating: " ", count: (5 - noteString.count))
             
-            var channelString = "\(note.noteInfo.channel)".prefix(5)
-            channelString += String(repeating: " ", count: (5 - channelString.count))
+            var channelString = "\(note.noteInfo.channel)".prefix(7)
+            channelString += String(repeating: " ", count: (7 - channelString.count))
             
-            var timeString = "\(note.time!)".prefix(5)
+            var timeString = "\(convertBeatToTime(inSequence: musicSequence!,inBeat: note.time!))".prefix(5)
             timeString += String(repeating: " ", count: (5 - timeString.count))
             
-            var durationString = "\(note.noteInfo.duration)".prefix(5)
-            durationString += String(repeating: " ", count: (5 - durationString.count))
+            var beatString = "\(note.time!)".prefix(5)
+            beatString += String(repeating: " ", count: (5 - beatString.count))
             
-            var releaseVelocityString = "\(note.noteInfo.releaseVelocity)".prefix(5)
-            releaseVelocityString += String(repeating: " ", count: (5 - releaseVelocityString.count))
+            var durationString = "\(note.noteInfo.duration)".prefix(7)
+            durationString += String(repeating: " ", count: (7 - durationString.count))
             
-            var velocityString = "\(note.noteInfo.velocity)".prefix(5)
-            velocityString += String(repeating: " ", count: (5 - velocityString.count))
+            //var releaseVelocityString = "\(note.noteInfo.releaseVelocity)".prefix(5)
+            //releaseVelocityString += String(repeating: " ", count: (5 - releaseVelocityString.count))
             
-            textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(durationString) \(releaseVelocityString) \(velocityString)\n")
-            index += 1
+            //var velocityString = "\(note.noteInfo.velocity)".prefix(5)
+            //velocityString += String(repeating: " ", count: (5 - velocityString.count))
+            
+            //textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(durationString) \(releaseVelocityString) \(velocityString)\n")
+            
+            textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(beatString) \(durationString) \n")
         }
         
-        //textView.textAlignment = NSTextAlignment.justified
+    }
+    
+    func highlightPlayingNotesInTextView () {
+        if avMIDIPlayer!.isPlaying {
+            var highlightLine = Array<Int>()
+            //var index = 0
+            
+            let currentPosition = convertTimeToBeat(inSequence: musicSequence!, inSeconds: avMIDIPlayer!.currentPosition)
+            
+            for (index,note) in noteList.enumerated() {
+                if !((Double(note.noteInfo.duration) + note.time) <  currentPosition) &&
+                    !(note.time > currentPosition) {
+                    
+                    highlightLine.append(index)
+
+                } else if !highlightLine.isEmpty {
+                    
+                    break
+                }
+                
+            }
+            
+            if highlightLine.isEmpty {return}
+            
+            let startPosition = (1 + highlightLine.first!) * (textViewTitle.count )
+            let length = (highlightLine.last! - highlightLine.first! + 1) * (textViewTitle.count)
+            
+            textView.selectedRange = NSMakeRange(startPosition , length)
+            textView.scrollRangeToVisible(NSMakeRange(startPosition, (textViewTitle.count * 14)))
+   
+            let attributedString = NSMutableAttributedString(string: textView.text)
+            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: textView.selectedRange)
+            textView.attributedText = attributedString
+            textView.font = UIFont(name: "Courier new", size: 12)
+        }
         
+    }
+    
+    func changeTrack (index:Int) {
+        print("Change Track to Track \(index)")
+        musicTrack = musicTrackList[index]
+        noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
+        updateTextView()
     }
     
 }
