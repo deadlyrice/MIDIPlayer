@@ -339,6 +339,7 @@
                         <outlet property="channelTextField" destination="IdY-Ax-u9t" id="rh6-yW-mvF"/>
                         <outlet property="durationLabel" destination="75g-Ta-eQI" id="Shg-gc-paJ"/>
                         <outlet property="durationTextField" destination="xTh-cz-o4P" id="uI0-6b-t2X"/>
+                        <outlet property="noteIndexTextField" destination="o0g-7t-YPQ" id="VdK-tR-jYP"/>
                         <outlet property="noteTextField" destination="GZv-4f-J8k" id="rvE-kR-5Qh"/>
                         <outlet property="playButton" destination="J2p-bm-u6F" id="aXT-uq-PIl"/>
                         <outlet property="textView" destination="ePt-zY-fy6" id="Bij-RX-tsx"/>

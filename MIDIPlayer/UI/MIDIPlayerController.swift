@@ -73,6 +73,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var channelTextField: UITextField!
     @IBOutlet weak var beatTimeTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
+    @IBOutlet weak var noteIndexTextField: UITextField!
     
     
     
@@ -108,6 +109,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         musicTrack = musicTrackList[0]
         trackTextField.text = "Track 0"
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
+        
         timeResolution = determineTimeResolution(musicSequence: musicSequence!)
         updateTextView()
         
@@ -311,6 +313,18 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func deleteANote(_ sender: UIButton) {
         print("Delete A note")
+        if noteList.isEmpty || musicTrackList.isEmpty || noteIndexTextField.text == "" {
+            return
+        }
+        
+        if let index = Int(noteIndexTextField.text!){
+            deleteANoteAt(index: index)
+            updateTextView()
+            musicSequenceModifiedFlag = true
+            
+        } else {
+            return
+        }
     }
     
     // timer functions
@@ -454,31 +468,33 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         var time = MusicTimeStamp(1.0)
         
-        insertANote(note: Notes.C4.rawValue, time: time)
+        insertANote(note: Notes.C4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.D4.rawValue, time: time)
+        insertANote(note: Notes.D4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.E4.rawValue, time: time)
+        insertANote(note: Notes.E4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.F4.rawValue, time: time)
+        insertANote(note: Notes.F4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.G4.rawValue, time: time)
+        insertANote(note: Notes.G4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.A4.rawValue, time: time)
+        insertANote(note: Notes.A4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.B4.rawValue, time: time)
+        insertANote(note: Notes.B4.rawValue, time: time, duration:5)
         time+=1
         
-        insertANote(note: Notes.C5.rawValue, time: time)
+        insertANote(note: Notes.C5.rawValue, time: time, duration:5)
         time+=1
         
         
+        
+        //MusicTrackClear(musicTrack!, 3, 3.5)
     }
     
     func insertANote(note:UInt8,
@@ -496,6 +512,41 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                                    releaseVelocity: releaseVelocity,
                                    duration: duration )
         MusicTrackNewMIDINoteEvent(musicTrack!, time, &note)
+    }
+    
+    func deleteANoteAt(index:Int){
+        
+        if index >= noteList.count {
+            return
+        }
+        
+        let beatTime = noteList[index].time!
+        
+        var tempNoteList = Array<Note>()
+        
+        for (i,note) in noteList.enumerated() {
+            if note.time >= beatTime && note.time < beatTime + 0.1 && i != index {
+                tempNoteList.append(note)
+            } else if note.time > beatTime + 0.1 {
+                break
+            }
+            
+        }
+        
+        MusicTrackClear(musicTrack!, beatTime, beatTime + 0.1)
+        
+        for note in tempNoteList {
+            insertANote(note:note.noteInfo.note,
+                        time:note.time,
+                        channel:note.noteInfo.channel,
+                        velocity:note.noteInfo.velocity,
+                        releaseVelocity:note.noteInfo.releaseVelocity,
+                        duration:note.noteInfo.duration)
+            
+        }
+        
+        noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
+        
     }
     
     func updateTextView () {
