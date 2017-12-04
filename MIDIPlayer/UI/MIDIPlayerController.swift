@@ -209,6 +209,18 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             sender.setTitle("Play", for: .normal)
             stopTimer()
         } else  {
+            
+            if timeTextField.text != "" {
+                if let t = Double(timeTextField.text!){
+                    if t >= 0 && t < (avMIDIPlayer?.duration)! {
+                        avMIDIPlayer?.currentPosition = t
+                    } else {
+                        avMIDIPlayer?.currentPosition = 0
+                        
+                    }
+                }
+            }
+            
             avMIDIPlayer?.play(nil)
             print("play")
             sender.setTitle("Stop", for: .normal)
@@ -358,6 +370,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             print("it is the end")
             avMIDIPlayer?.currentPosition = 0
             avMIDIPlayer?.stop()
+            timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
         }
         
         if avMIDIPlayer!.isPlaying{
