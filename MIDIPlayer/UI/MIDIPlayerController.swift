@@ -65,7 +65,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     
     @IBOutlet weak var timeTextField: UITextField!
-    @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var trackTextField: UITextField!
@@ -74,6 +73,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var beatTimeTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var noteIndexTextField: UITextField!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var addATrackButton: UIButton!
+    @IBOutlet weak var deleteATrackButton: UIButton!
+    @IBOutlet weak var addANoteButton: UIButton!
+    @IBOutlet weak var deleteANoteButton: UIButton!
     
     
     
@@ -100,6 +104,8 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         textView.isEditable = false
         textView.isScrollEnabled = true
+        
+        enableButtonsAfterStop()
         
         getMusicSequence()
         musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
@@ -208,6 +214,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             print("Stop")
             sender.setTitle("Play", for: .normal)
             stopTimer()
+            enableButtonsAfterStop()
         } else  {
             
             if timeTextField.text != "" {
@@ -225,6 +232,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             print("play")
             sender.setTitle("Stop", for: .normal)
             startTimer()
+            disableButtonsWhilePlaying()
         }
  
     }
@@ -674,6 +682,27 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         updateTextView()
         
         
+    }
+    
+    /*
+     @IBOutlet weak var addATrackButton: UIButton!
+     @IBOutlet weak var deleteATrackButton: UIButton!
+     @IBOutlet weak var addANoteButton: UIButton!
+     @IBOutlet weak var deleteANoteButton: UIButton!
+     */
+    
+    func disableButtonsWhilePlaying () {
+        addATrackButton.isEnabled = false
+        deleteATrackButton.isEnabled = false
+        addANoteButton.isEnabled = false
+        deleteANoteButton.isEnabled = false
+    }
+    
+    func enableButtonsAfterStop () {
+        addATrackButton.isEnabled = true
+        deleteATrackButton.isEnabled = true
+        addANoteButton.isEnabled = true
+        deleteANoteButton.isEnabled = true
     }
     
 }

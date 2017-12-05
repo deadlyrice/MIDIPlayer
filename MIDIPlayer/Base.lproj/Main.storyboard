@@ -335,8 +335,12 @@
                         <viewLayoutGuide key="safeArea" id="Lyr-Zn-xpC"/>
                     </view>
                     <connections>
+                        <outlet property="addANoteButton" destination="thW-LJ-SLK" id="vJ5-NT-aZR"/>
+                        <outlet property="addATrackButton" destination="N1U-d8-3i4" id="9EM-Zg-96F"/>
                         <outlet property="beatTimeTextField" destination="nh3-rp-pgU" id="1d8-NZ-xra"/>
                         <outlet property="channelTextField" destination="IdY-Ax-u9t" id="rh6-yW-mvF"/>
+                        <outlet property="deleteANoteButton" destination="Tvo-g8-GU0" id="3dJ-Zt-51Q"/>
+                        <outlet property="deleteATrackButton" destination="Yj5-EP-r98" id="5yx-s2-TUb"/>
                         <outlet property="durationLabel" destination="75g-Ta-eQI" id="Shg-gc-paJ"/>
                         <outlet property="durationTextField" destination="xTh-cz-o4P" id="uI0-6b-t2X"/>
                         <outlet property="noteIndexTextField" destination="o0g-7t-YPQ" id="VdK-tR-jYP"/>
