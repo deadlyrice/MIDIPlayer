@@ -67,6 +67,7 @@
 		25C7BE2B1FD5FDF500371350 /* Icon-87.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C7BE0D1FD5FDF500371350 /* Icon-87.png */; };
 		25C7BE2C1FD5FDF500371350 /* Icon-32.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C7BE0E1FD5FDF500371350 /* Icon-32.png */; };
 		25C7BE2D1FD5FDF500371350 /* Icon-144.png in Resources */ = {isa = PBXBuildFile; fileRef = 25C7BE0F1FD5FDF500371350 /* Icon-144.png */; };
+		25C7BE301FD6F13700371350 /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C7BE2F1FD6F13700371350 /* Instrument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,7 @@
 		25C7BE0D1FD5FDF500371350 /* Icon-87.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-87.png"; sourceTree = "<group>"; };
 		25C7BE0E1FD5FDF500371350 /* Icon-32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-32.png"; sourceTree = "<group>"; };
 		25C7BE0F1FD5FDF500371350 /* Icon-144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-144.png"; sourceTree = "<group>"; };
+		25C7BE2F1FD6F13700371350 /* Instrument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				2511188B1FCF5B3F006A4005 /* Note.swift */,
+				25C7BE2F1FD6F13700371350 /* Instrument.swift */,
 			);
 			path = entities;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				2511188C1FCF5B3F006A4005 /* Note.swift in Sources */,
 				2586EC741FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC5D1FCC6C400090C8EB /* CheckError.swift in Sources */,
+				25C7BE301FD6F13700371350 /* Instrument.swift in Sources */,
 				2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
 				25AD814D1FCF108400F26852 /* RenamePageController.swift in Sources */,
 			);

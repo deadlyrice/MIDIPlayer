@@ -292,3 +292,34 @@ func saveFileFromURL (url:URL) {
         }
     }
 }
+
+func getInstrumentList () -> Array<Instrument> {
+    var instrumentList = Array<Instrument> ()
+    
+    let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
+    
+    var instrumentsInfo:Unmanaged<CFArray>?
+    CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
+    
+    let instrInfo = instrumentsInfo!.takeRetainedValue() as! NSArray
+    
+    //print(instrInfo)
+    
+    for i in instrInfo {
+        
+        let lsb = (i as! NSDictionary).value(forKey: "LSB") as! Int
+        let msb = (i as! NSDictionary).value(forKey: "MSB") as! Int
+        let name = (i as! NSDictionary).value(forKey: "name") as! String
+        let program = (i as! NSDictionary).value(forKey: "program") as! Int
+        
+        let instrument = Instrument(LSB: lsb, MSB: msb, name: name, program: program)
+        
+        instrumentList.append(instrument)
+        
+        //print(lsb,msb,name,program)
+    }
+    
+    
+    
+    return instrumentList
+}

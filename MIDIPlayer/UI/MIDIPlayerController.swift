@@ -60,8 +60,8 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     var noteList:Array<Note>!
     var timeResolution:UInt32!
     let textViewTitle = "Index|Note |Channel|Time |Beat |Duration\n"
-    
     var musicSequenceModifiedFlag = true
+    var instrumentList:Array<Instrument>!
     
     
     @IBOutlet weak var timeTextField: UITextField!
@@ -69,7 +69,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var trackTextField: UITextField!
     @IBOutlet weak var noteTextField: UITextField!
-    @IBOutlet weak var channelTextField: UITextField!
     @IBOutlet weak var beatTimeTextField: UITextField!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var noteIndexTextField: UITextField!
@@ -79,14 +78,20 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var addANoteButton: UIButton!
     @IBOutlet weak var deleteANoteButton: UIButton!
     
+    @IBOutlet weak var instrumentTextField: UITextField!
+    
+    @IBOutlet weak var changeInstrumentButton: UIButton!
     
     
     var trackPickerView:UIPickerView!
     var notePickerView:UIPickerView!
+    var instrumentPickerView:UIPickerView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        instrumentList = getInstrumentList()
         
         // set picker views
         let screenSize = UIScreen.main.bounds
@@ -102,6 +107,13 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         notePickerView.selectRow(48, inComponent: 0, animated: false)
         noteTextField.text = NotePickerString[48]
         
+        instrumentPickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
+        instrumentPickerView.delegate = self
+        instrumentPickerView.dataSource = self
+        instrumentTextField.inputView = instrumentPickerView
+        instrumentPickerView.selectRow(0, inComponent: 0, animated: false)
+        instrumentTextField.text = instrumentList[0].name
+        
         textView.isEditable = false
         textView.isScrollEnabled = true
         
@@ -115,11 +127,10 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         musicTrack = musicTrackList[0]
         trackTextField.text = "Track 0"
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
-        
         timeResolution = determineTimeResolution(musicSequence: musicSequence!)
         updateTextView()
         
-
+        
   
     }
     
@@ -140,6 +151,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         } else if pickerView == notePickerView {
             return NotePickerString.count
             
+        } else if pickerView == instrumentPickerView {
+            
+            return instrumentList.count
         }
         
         return 0
@@ -151,6 +165,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         } else if pickerView == notePickerView {
             return NotePickerString[row]
             
+        } else if pickerView == instrumentPickerView {
+            
+            return instrumentList[row].name
         }
         return ""
     }
@@ -163,6 +180,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         } else if pickerView == notePickerView {
             noteTextField.text = NotePickerString[row]
             
+        } else if pickerView == instrumentPickerView {
+            
+            instrumentTextField.text = instrumentList[row].name
         }
     }
     
@@ -283,15 +303,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         var newTrack:MusicTrack?
         
-        /*
-        if trackPickerView == nil {
-            let screenSize = UIScreen.main.bounds
-            trackPickerView = UIPickerView(frame: CGRect(x: screenSize.minX, y: screenSize.minY, width: screenSize.width, height: screenSize.height/3))
-            trackPickerView.delegate = self
-            trackPickerView.dataSource = self
-            trackTextField.inputView = trackPickerView
-        }*/
-        
         MusicSequenceNewTrack(musicSequence!, &newTrack)
         musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
         trackPickerView.reloadAllComponents()
@@ -308,7 +319,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         print("Add a note")
         
         if beatTimeTextField.text == "" ||
-            channelTextField.text == "" ||
             durationTextField.text == "" ||
             noteTextField.text == ""{
             return
@@ -316,12 +326,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
         
         let time = Double(beatTimeTextField.text!)!
-        let channel = UInt8(channelTextField.text!)!
         let duration = Float32(durationTextField.text!)!
         let note = UInt8(NotePickerString.index(of:noteTextField.text!)!)
         
         
-        insertANote(note: note + 12, time : time, channel: channel , duration: duration)
+        insertANote(note: note + 12, time : time , duration: duration)
         
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
         updateTextView()
@@ -343,6 +352,31 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             return
         }
     }
+    
+    @IBAction func changeInstrument(_ sender: UIButton) {
+        if instrumentTextField.text == nil {return}
+        if musicTrackList.isEmpty {return}
+        
+        let index = instrumentPickerView.selectedRow(inComponent: 0)
+        let instrument = instrumentList[index]
+        
+        var inMessage = MIDIChannelMessage(status: 0xB0, data1: UInt8(instrument.LSB), data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // set lsb to 0
+        
+        inMessage = MIDIChannelMessage(status: 0xB0, data1: UInt8(instrument.MSB), data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // set msb to 120
+        
+        inMessage = MIDIChannelMessage(status: 0xC0, data1: UInt8(instrument.program), data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // change program to 48
+        
+        print("change instrument")
+        
+        musicSequenceModifiedFlag = true
+    }
+    
     
     // timer functions
     func startTimer () {
@@ -435,12 +469,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         // http://www.ntonyx.com/sf_f.htm
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
-        var instrumentsInfo:Unmanaged<CFArray>?
-        CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
-        
-        print("hi")
-        print(instrumentsInfo)
-        
         var status = noErr
         var data: Unmanaged<CFData>?
         
@@ -479,12 +507,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
-        var instrumentsInfo:Unmanaged<CFArray>?
-        CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
-        
-        print("hi")
-        print(instrumentsInfo)
-        
         do {
             try self.avMIDIPlayer = AVMIDIPlayer(contentsOf: midiFileURL!, soundBankURL: bankURL)
             //print("created midi player with sound bank url \(bankURL)")
@@ -497,17 +519,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func createATestingMIDIFile(){
         
-        var inMessage = MIDIChannelMessage(status: 0xB0, data1: 0, data2: 0, reserved: 0)
-        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // set lsb to 0
-        
-        inMessage = MIDIChannelMessage(status: 0xB0, data1: 120, data2: 0, reserved: 0)
-        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // set msb to 120
-        
-        inMessage = MIDIChannelMessage(status: 0xC0, data1: 48, data2: 0, reserved: 0)
-        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // change program to 48
+
         
         var time = MusicTimeStamp(1.0)
         
