@@ -362,6 +362,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let instrument = instrumentList[index]
         
         var inMessage = MIDIChannelMessage(status: 0xE0, data1: UInt8(instrument.MSB), data2: UInt8(instrument.LSB), reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
         
         inMessage = MIDIChannelMessage(status: 0xC0, data1: UInt8(instrument.program), data2: 0, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
@@ -720,18 +721,12 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
     }
     
-    /*
-     @IBOutlet weak var addATrackButton: UIButton!
-     @IBOutlet weak var deleteATrackButton: UIButton!
-     @IBOutlet weak var addANoteButton: UIButton!
-     @IBOutlet weak var deleteANoteButton: UIButton!
-     */
-    
     func disableButtonsWhilePlaying () {
         addATrackButton.isEnabled = false
         deleteATrackButton.isEnabled = false
         addANoteButton.isEnabled = false
         deleteANoteButton.isEnabled = false
+        changeInstrumentButton.isEnabled = false
     }
     
     func enableButtonsAfterStop () {
@@ -739,6 +734,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         deleteATrackButton.isEnabled = true
         addANoteButton.isEnabled = true
         deleteANoteButton.isEnabled = true
+        changeInstrumentButton.isEnabled = true
     }
     
 }

@@ -319,7 +319,9 @@ func getInstrumentList () -> Array<Instrument> {
         //print(lsb,msb,name,program)
     }
     
-    
+    instrumentList.sort(by: {(a:Instrument,b:Instrument) in
+        return a.name < b.name
+    })
     
     return instrumentList
 }
