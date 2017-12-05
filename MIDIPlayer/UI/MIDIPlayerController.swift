@@ -321,14 +321,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let note = UInt8(NotePickerString.index(of:noteTextField.text!)!)
         
         
-        insertANote(note: note, time : time, channel: channel , duration: duration)
+        insertANote(note: note + 12, time : time, channel: channel , duration: duration)
         
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
-        //createAVMIDIPlayer(musicSequence: musicSequence!)
         updateTextView()
         musicSequenceModifiedFlag = true
-        //timeTextField.text = "\((avMIDIPlayer!.currentPosition * 100).rounded(.up)/100)"
-        //durationLabel.text = "\((avMIDIPlayer!.duration*100).rounded(.up)/100)"
     }
     
     @IBAction func deleteANote(_ sender: UIButton) {
@@ -378,6 +375,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             print("it is the end")
             avMIDIPlayer?.currentPosition = 0
             avMIDIPlayer?.stop()
+            enableButtonsAfterStop()
             timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
         }
         
@@ -437,6 +435,12 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         // http://www.ntonyx.com/sf_f.htm
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
+        var instrumentsInfo:Unmanaged<CFArray>?
+        CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
+        
+        print("hi")
+        print(instrumentsInfo)
+        
         var status = noErr
         var data: Unmanaged<CFData>?
         
@@ -475,6 +479,12 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
         
+        var instrumentsInfo:Unmanaged<CFArray>?
+        CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
+        
+        print("hi")
+        print(instrumentsInfo)
+        
         do {
             try self.avMIDIPlayer = AVMIDIPlayer(contentsOf: midiFileURL!, soundBankURL: bankURL)
             //print("created midi player with sound bank url \(bankURL)")
@@ -487,8 +497,28 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func createATestingMIDIFile(){
         
+        var inMessage = MIDIChannelMessage(status: 0xB0, data1: 0, data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // set lsb to 0
+        
+        inMessage = MIDIChannelMessage(status: 0xB0, data1: 120, data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // set msb to 120
+        
+        inMessage = MIDIChannelMessage(status: 0xC0, data1: 48, data2: 0, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // change program to 48
+        
         var time = MusicTimeStamp(1.0)
         
+        for i:UInt8 in 0...24 {
+            insertANote(note: Notes.C4.rawValue + i, time: time)
+            time+=1
+            
+        }
+        
+        
+        /*
         insertANote(note: Notes.C4.rawValue, time: time, duration:5)
         time+=1
         
@@ -512,7 +542,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         insertANote(note: Notes.C5.rawValue, time: time, duration:5)
         time+=1
-        
+        */
         
         
         //MusicTrackClear(musicTrack!, 3, 3.5)
