@@ -9,9 +9,6 @@
 import Foundation
 import AudioToolbox
 
-var url:URL?
-var whichOne = 0
-
 func getSampleList() -> Array<String> {
     var sampleList = [String]()
     
@@ -285,24 +282,13 @@ func convertTimeToBeat(inSequence:MusicSequence,inSeconds: Float64) -> MusicTime
 }
 
 func saveFileFromURL (url:URL) {
-    whichOne = 1
     let fileManager = FileManager.default
     let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
     if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(url.lastPathComponent) {
         do {
-            try fileManager.moveItem(at: url, to: fileURL)
+            try fileManager.copyItem(at: url, to: fileURL)
         } catch let error as NSError {
             print("error: \(error)")
         }
     }
 }
-
-/*let documentsDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
- 
- if let fileURL = NSURL(fileURLWithPath: documentsDirectory).appendingPathComponent(name) {
- //print(fileURL)
- MusicSequenceFileLoad(musicSequence!,
- fileURL as CFURL,
- .midiType,
- .smf_ChannelsToTracks)
- }*/

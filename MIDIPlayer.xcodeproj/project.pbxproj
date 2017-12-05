@@ -389,6 +389,11 @@
 					2586EC1C1FCC6A680090C8EB = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 					2586EC301FCC6A680090C8EB = {
 						CreatedOnToolsVersion = 9.1;

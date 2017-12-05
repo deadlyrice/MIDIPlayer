@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import os
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    let mylog = OSLog(subsystem: "deadlyrice.MIDIPlayer", category: "general")
+    
 /*
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -23,25 +25,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if launchOptions == nil {
             return true
         }
+        
         for option in launchOptions! {
-            
             switch option.key {
             case UIApplicationLaunchOptionsKey.url:
                 saveFileFromURL(url: option.value as! URL)
                 break
             case UIApplicationLaunchOptionsKey.sourceApplication:
-                whichOne = 2
                 break
             case UIApplicationLaunchOptionsKey.annotation:
-                whichOne = 3
                 break
-                
             default:
                 break
             }
-            
         }
         
+        return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        saveFileFromURL(url: url)
         return true
     }
 
