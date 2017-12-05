@@ -16,19 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 /*
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        print("launched")
-        if launchOptions == nil {
-            return true
-        }
-        for option in launchOptions! {
-            
-            
-            print(option.key)
-            print(option.value)
-            
-        }
-        
-        return true
     }
  */
     
@@ -40,10 +27,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             switch option.key {
             case UIApplicationLaunchOptionsKey.url:
+                saveFileFromURL(url: option.value as! URL)
                 break
             case UIApplicationLaunchOptionsKey.sourceApplication:
+                whichOne = 2
                 break
             case UIApplicationLaunchOptionsKey.annotation:
+                whichOne = 3
                 break
                 
             default:

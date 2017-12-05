@@ -24,6 +24,18 @@ class TableViewController:UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /*
+        if url != nil {
+            mainMenuCellList.append("\(url!)")
+        } else {
+            mainMenuCellList.append("nil")
+        }
+ */
+ 
+        
+        mainMenuCellList.append("\(whichOne)")
+        
         reloadData()
     }
     
