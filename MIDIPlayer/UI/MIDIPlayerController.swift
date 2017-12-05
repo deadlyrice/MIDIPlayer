@@ -334,6 +334,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
         updateTextView()
+        beatTimeTextField.text = "\(time + 1)"
         musicSequenceModifiedFlag = true
     }
     
@@ -360,17 +361,10 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let index = instrumentPickerView.selectedRow(inComponent: 0)
         let instrument = instrumentList[index]
         
-        var inMessage = MIDIChannelMessage(status: 0xB0, data1: UInt8(instrument.LSB), data2: 0, reserved: 0)
-        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // set lsb to 0
-        
-        inMessage = MIDIChannelMessage(status: 0xB0, data1: UInt8(instrument.MSB), data2: 0, reserved: 0)
-        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // set msb to 120
+        var inMessage = MIDIChannelMessage(status: 0xE0, data1: UInt8(instrument.MSB), data2: UInt8(instrument.LSB), reserved: 0)
         
         inMessage = MIDIChannelMessage(status: 0xC0, data1: UInt8(instrument.program), data2: 0, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
-        // change program to 48
         
         print("change instrument")
         
@@ -453,7 +447,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         case .create:
             NewMusicSequence(&musicSequence)
             MusicSequenceNewTrack(musicSequence!, &musicTrack)
-            createATestingMIDIFile()
+            //createATestingMIDIFile()
             mode = .saved
             
             break
