@@ -136,7 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				2586EC6D1FCC6D560090C8EB /* entities */,
-				2586EC6E1FCC70120090C8EB /* UI */,
+				2586EC6E1FCC70120090C8EB /* UIContoller */,
 				2586EC7D1FCE21170090C8EB /* sound bank */,
 				2586EC6C1FCC6D2E0090C8EB /* utilities */,
 				2586EC5B1FCC6C0C0090C8EB /* managers */,
@@ -206,7 +206,7 @@
 			path = entities;
 			sourceTree = "<group>";
 		};
-		2586EC6E1FCC70120090C8EB /* UI */ = {
+		2586EC6E1FCC70120090C8EB /* UIContoller */ = {
 			isa = PBXGroup;
 			children = (
 				2586EC6F1FCC727E0090C8EB /* TableViewController.swift */,
@@ -214,7 +214,7 @@
 				2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */,
 				25AD814C1FCF108400F26852 /* RenamePageController.swift */,
 			);
-			path = UI;
+			path = UIContoller;
 			sourceTree = "<group>";
 		};
 		2586EC7D1FCE21170090C8EB /* sound bank */ = {
