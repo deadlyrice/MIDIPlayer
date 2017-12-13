@@ -560,7 +560,7 @@
 				DEVELOPMENT_TEAM = F5P6PRMN7F;
 				INFOPLIST_FILE = MIDIPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = deadlyrice.MIDIPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuyulun.MIDIPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -575,7 +575,7 @@
 				DEVELOPMENT_TEAM = F5P6PRMN7F;
 				INFOPLIST_FILE = MIDIPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = deadlyrice.MIDIPlayer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wuyulun.MIDIPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
