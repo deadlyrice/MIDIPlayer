@@ -659,10 +659,10 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                     
                     highlightLine.append(index)
 
-                } else if !highlightLine.isEmpty {
+                } /*else if !highlightLine.isEmpty {
                     
                     break
-                }
+                }*/
                 
             }
             
