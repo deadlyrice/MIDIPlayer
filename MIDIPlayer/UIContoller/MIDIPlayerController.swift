@@ -62,6 +62,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     let textViewTitle = "Index|Note |Channel|Time |Beat |Duration\n"
     var musicSequenceModifiedFlag = true
     var instrumentList:Array<Instrument>!
+
     
     
     @IBOutlet weak var timeTextField: UITextField!
@@ -300,12 +301,15 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func addATrack(_ sender: UIButton) {
         print("add a track")
-        
         var newTrack:MusicTrack?
         
         MusicSequenceNewTrack(musicSequence!, &newTrack)
         musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
         trackPickerView.reloadAllComponents()
+        print(musicTrackList.count)
+        var i:UInt32 = 100
+        MusicSequenceGetTrackIndex(musicSequence!, newTrack!, &i)
+        print(i)
         if musicTrackList.count == 1 {
             musicTrack = musicTrackList[0]
             noteList = Array<Note>()//getNoteListFromMusicTrack(musicTrack: musicTrack!)
@@ -328,9 +332,10 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let time = Double(beatTimeTextField.text!)!
         let duration = Float32(durationTextField.text!)!
         let note = UInt8(NotePickerString.index(of:noteTextField.text!)!)
+        let chan = UInt8(trackPickerView.selectedRow(inComponent: 0))
         
         
-        insertANote(note: note + 12, time : time , duration: duration)
+        insertANote(note: note + 12, time : time ,channel: chan, duration: duration)
         
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
         updateTextView()
@@ -361,10 +366,16 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let index = instrumentPickerView.selectedRow(inComponent: 0)
         let instrument = instrumentList[index]
         
-        var inMessage = MIDIChannelMessage(status: 0xE0, data1: UInt8(instrument.MSB), data2: UInt8(instrument.LSB), reserved: 0)
+        MusicSequenceGetIndTrack(musicSequence!, UInt32(trackPickerView.selectedRow(inComponent: 0)), &musicTrack)
+        
+        var status = UInt8(0xE0 + trackPickerView.selectedRow(inComponent: 0))
+        print(status)
+        
+        var inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.MSB), data2: UInt8(instrument.LSB), reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
         
-        inMessage = MIDIChannelMessage(status: 0xC0, data1: UInt8(instrument.program), data2: 0, reserved: 0)
+        status = UInt8(0xC0 + trackPickerView.selectedRow(inComponent: 0))
+        inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.program), data2: 0, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
         
         print("change instrument")
@@ -684,7 +695,8 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func changeTrack (index:Int) {
         print("Change Track to Track \(index)")
-        musicTrack = musicTrackList[index]
+        //musicTrack = musicTrackList[index]
+        MusicSequenceGetIndTrack(musicSequence!, UInt32(index), &musicTrack)
         noteList = getNoteListFromMusicTrack(musicTrack: musicTrack!)
         updateTextView()
     }
