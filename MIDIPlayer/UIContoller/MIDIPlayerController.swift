@@ -318,8 +318,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         let index = instrumentPickerView.selectedRow(inComponent: 0)
         let instrument = instrumentList[index]
         MusicSequenceGetIndTrack(musicSequence!, UInt32(trackPickerView.selectedRow(inComponent: 0)), &musicTrack)
-        var status = UInt8(0xE0 + trackPickerView.selectedRow(inComponent: 0))
-        var inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.MSB), data2: UInt8(instrument.LSB), reserved: 0)
+        var status = UInt8(0xB0 + trackPickerView.selectedRow(inComponent: 0))
+        var inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.MSB), data2: 0x00, reserved: 0)
+        MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        status = UInt8(0xB0 + trackPickerView.selectedRow(inComponent: 0))
+        inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.LSB), data2: 0x20, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
         status = UInt8(0xC0 + trackPickerView.selectedRow(inComponent: 0))
         inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.program), data2: 0, reserved: 0)
