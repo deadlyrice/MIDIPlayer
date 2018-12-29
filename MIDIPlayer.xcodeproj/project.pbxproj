@@ -33,8 +33,6 @@
 		2586EC751FCC8A010090C8EB /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC731FCC8A010090C8EB /* utilities.swift */; };
 		2586EC761FCC8A010090C8EB /* utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC731FCC8A010090C8EB /* utilities.swift */; };
 		2586EC781FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
-		2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
-		2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC771FCC99990090C8EB /* MIDIPlayerController.swift */; };
 		2586EC7C1FCDA2040090C8EB /* CreatingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC7B1FCDA2040090C8EB /* CreatingPageViewController.swift */; };
 		25AD814D1FCF108400F26852 /* RenamePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AD814C1FCF108400F26852 /* RenamePageController.swift */; };
 		25C7BE301FD6F13700371350 /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C7BE2F1FD6F13700371350 /* Instrument.swift */; };
@@ -387,7 +385,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2586EC791FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
 				2586EC751FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC711FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC361FCC6A680090C8EB /* MIDIPlayerTests.swift in Sources */,
@@ -400,7 +397,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2586EC7A1FCC99990090C8EB /* MIDIPlayerController.swift in Sources */,
 				2586EC761FCC8A010090C8EB /* utilities.swift in Sources */,
 				2586EC721FCC727E0090C8EB /* TableViewController.swift in Sources */,
 				2586EC411FCC6A680090C8EB /* MIDIPlayerUITests.swift in Sources */,

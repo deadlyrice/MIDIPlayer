@@ -54,7 +54,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     var musicPlayer:MusicPlayer?
     var avMIDIPlayer:AVMIDIPlayer?
     var fileName:String!
-    var mode:TableMode!
+    var mode = TableMode.main
     var timer:Timer!
     var musicTrackList:Array<MusicTrack>!
     var noteList:Array<Note>!
@@ -62,8 +62,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     let textViewTitle = "Index|Note |Channel|Time |Beat |Duration\n"
     var musicSequenceModifiedFlag = true
     var instrumentList:Array<Instrument>!
-
-    
     
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var durationLabel: UILabel!
@@ -78,11 +76,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @IBOutlet weak var deleteATrackButton: UIButton!
     @IBOutlet weak var addANoteButton: UIButton!
     @IBOutlet weak var deleteANoteButton: UIButton!
-    
     @IBOutlet weak var instrumentTextField: UITextField!
-    
     @IBOutlet weak var changeInstrumentButton: UIButton!
-    
+    @IBOutlet weak var loopLabel: UILabel!
     
     var trackPickerView:UIPickerView!
     var notePickerView:UIPickerView!
@@ -237,7 +233,6 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             stopTimer()
             enableButtonsAfterStop()
         } else  {
-            
             if timeTextField.text != "" {
                 if let t = Double(timeTextField.text!){
                     if t >= 0 && t < (avMIDIPlayer?.duration)! {
@@ -249,7 +244,14 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                 }
             }
             
-            avMIDIPlayer?.play(nil)
+            avMIDIPlayer?.play({() in
+                DispatchQueue.main.async {
+                    if self.loopLabel.text == "True" && self.avMIDIPlayer?.currentPosition == 0 {
+                        self.avMIDIPlayer?.currentPosition = 0;
+                        self.play(sender);
+                    }
+                }
+            })
             print("play")
             sender.setTitle("Stop", for: .normal)
             startTimer()
@@ -383,6 +385,14 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         musicSequenceModifiedFlag = true
     }
     
+    @IBAction func loopButton(_ sender: UIButton) {
+        let loopLabelText = loopLabel.text;
+        if loopLabelText == "True" {
+            loopLabel.text = "False"
+        } else {
+            loopLabel.text = "True"
+        }
+    }
     
     // timer functions
     func startTimer () {
