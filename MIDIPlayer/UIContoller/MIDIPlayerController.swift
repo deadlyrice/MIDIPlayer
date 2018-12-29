@@ -312,18 +312,35 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         }
     }
     
+//    Voice Message           Status Byte      Data Byte1          Data Byte2
+//    -------------           -----------   -----------------   -----------------
+//    Note off                      8x      Key number          Note Off velocity
+//    Note on                       9x      Key number          Note on velocity
+//    Polyphonic Key Pressure       Ax      Key number          Amount of pressure
+//    Control Change                Bx      Controller number   Controller value
+//    Program Change                Cx      Program number      None
+//    Channel Pressure              Dx      Pressure value      None
+//    Pitch Bend                    Ex      MSB                 LSB
+    
+    // Before changeing instrument, we first need to set MSB to 0 and LSB to 32
+    // Using Bx to change MSB and LSB
+    // Using Cx to change program
+    // Check out this link for control change message: https://www.midi.org/specifications/item/table-3-control-change-messages-data-bytes-2
     @IBAction func changeInstrument(_ sender: UIButton) {
         if instrumentTextField.text == nil {return}
         if musicTrackList.isEmpty {return}
         let index = instrumentPickerView.selectedRow(inComponent: 0)
         let instrument = instrumentList[index]
         MusicSequenceGetIndTrack(musicSequence!, UInt32(trackPickerView.selectedRow(inComponent: 0)), &musicTrack)
+        // set MSB to 0x00
         var status = UInt8(0xB0 + trackPickerView.selectedRow(inComponent: 0))
         var inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.MSB), data2: 0x00, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // set LSB to 0x20
         status = UInt8(0xB0 + trackPickerView.selectedRow(inComponent: 0))
         inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.LSB), data2: 0x20, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
+        // change program
         status = UInt8(0xC0 + trackPickerView.selectedRow(inComponent: 0))
         inMessage = MIDIChannelMessage(status: status, data1: UInt8(instrument.program), data2: 0, reserved: 0)
         MusicTrackNewMIDIChannelEvent(musicTrack!, 0, &inMessage)
