@@ -222,6 +222,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                         self.play(sender);
                     } else  {
                         sender.setTitle("Play", for: .normal)
+                        self.enableButtonsAfterStop()
                     }
                 }
             })
@@ -265,15 +266,18 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     }
     
     @IBAction func addATrack(_ sender: UIButton) {
+        addATrack()
+    }
+    
+    func addATrack(){
         print("add a track")
+        if musicTrackList.count >= 64 {return}
         var newTrack:MusicTrack?
         MusicSequenceNewTrack(musicSequence!, &newTrack)
         musicTrackList = getTrackListFromMusicSeqence(musicSequence: musicSequence!)
         trackPickerView.reloadAllComponents()
-        print(musicTrackList.count)
         var i:UInt32 = 100
         MusicSequenceGetTrackIndex(musicSequence!, newTrack!, &i)
-        print(i)
         if musicTrackList.count == 1 {
             musicTrack = musicTrackList[0]
             noteList = Array<Note>()
@@ -289,6 +293,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             noteTextField.text == ""{
             return
         }
+        if (musicTrack == nil || musicTrackList == nil) {addATrack()}
         let time = Double(beatTimeTextField.text!)!
         let duration = Float32(durationTextField.text!)!
         let note = UInt8(NotePickerString.index(of:noteTextField.text!)!)
@@ -302,7 +307,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     @IBAction func deleteANote(_ sender: UIButton) {
         print("Delete A note")
-        if noteList.isEmpty || musicTrackList.isEmpty || noteIndexTextField.text == "" {
+        if self.musicTrackList==nil || musicTrack==nil ||
+            noteList.isEmpty || musicTrackList.isEmpty ||
+            noteIndexTextField.text == "" {
             return
         }
         if let index = Int(noteIndexTextField.text!){
@@ -635,8 +642,8 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func isTheEnd()->Bool {
         if avMIDIPlayer == nil {return false}
-        let cPosition = avMIDIPlayer!.currentPosition.rounded()
-        let duration = avMIDIPlayer!.duration.rounded()
+        let cPosition = avMIDIPlayer!.currentPosition.rounded(.up)
+        let duration = avMIDIPlayer!.duration.rounded(.up)
         return cPosition >= duration
     }
     
