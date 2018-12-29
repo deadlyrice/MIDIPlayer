@@ -244,11 +244,21 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                 }
             }
             
+            //print("currentPosition: \(avMIDIPlayer!.currentPosition) duration: \(self.avMIDIPlayer?.duration)")
+            
+            if isTheEnd() {
+                avMIDIPlayer?.currentPosition = 0.0
+            }
+            
             avMIDIPlayer?.play({() in
+                //print("currentPosition: \(self.avMIDIPlayer!.currentPosition) duration: \(self.avMIDIPlayer?.duration)")
                 DispatchQueue.main.async {
-                    if self.loopLabel.text == "True" && self.avMIDIPlayer?.currentPosition == 0 {
+                    let cPosition = self.avMIDIPlayer!.currentPosition
+                    if self.loopLabel.text == "True" && (self.isTheEnd()) {
                         self.avMIDIPlayer?.currentPosition = 0;
                         self.play(sender);
+                    } else  {
+                        sender.setTitle("Play", for: .normal)
                     }
                 }
             })
@@ -417,26 +427,12 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     @objc func tick (){
         
         if musicTrackList.isEmpty || avMIDIPlayer == nil {
-            
             return
-        }
-        
-        if (avMIDIPlayer!.duration * 100).rounded(.up) <= (avMIDIPlayer!.currentPosition*100).rounded(.up) {
-            print("it is the end")
-            avMIDIPlayer?.currentPosition = 0
-            avMIDIPlayer?.stop()
-            enableButtonsAfterStop()
-            timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
         }
         
         if avMIDIPlayer!.isPlaying{
             timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
-            playButton.setTitle("Stop", for: .normal)
             highlightPlayingNotesInTextView ()
-            
-        } else {
-            
-            playButton.setTitle("Play", for: .normal)
         }
     }
     
@@ -680,11 +676,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                     
                     highlightLine.append(index)
 
-                } /*else if !highlightLine.isEmpty {
-                    
-                    break
-                }*/
-                
+                } 
             }
             
             if highlightLine.isEmpty {return}
@@ -757,6 +749,14 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         addANoteButton.isEnabled = true
         deleteANoteButton.isEnabled = true
         changeInstrumentButton.isEnabled = true
+    }
+    
+    func isTheEnd()->Bool {
+        if avMIDIPlayer == nil {return false}
+        let cPosition = avMIDIPlayer!.currentPosition.rounded()
+        let duration = avMIDIPlayer!.duration.rounded()
+        print("currentPosition: \(cPosition) duration: \(duration)")
+        return cPosition >= duration
     }
     
 }
