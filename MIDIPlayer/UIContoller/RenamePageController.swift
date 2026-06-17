@@ -46,7 +46,7 @@ class RenamePageController: ViewController, UITextFieldDelegate {
         performSegue(withIdentifier: "cancel", sender: self)
     }
     
-    @IBAction func rename(_ sender: UIButton) {
+    @IBAction func renameFile(_ sender: UIButton) {
         if let newName = fileNameTextField.text {
             if newName != "" {
                 renameAFile(fileName: fileName, newName: newName)

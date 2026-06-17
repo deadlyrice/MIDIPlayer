@@ -21,19 +21,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
  */
     
-    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions:[UIApplicationLaunchOptionsKey: Any]?) -> Bool{
+    func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions:[UIApplication.LaunchOptionsKey: Any]?) -> Bool{
         if launchOptions == nil {
             return true
         }
-        
+
         for option in launchOptions! {
             switch option.key {
-            case UIApplicationLaunchOptionsKey.url:
+            case UIApplication.LaunchOptionsKey.url:
                 saveFileFromURL(url: option.value as! URL)
                 break
-            case UIApplicationLaunchOptionsKey.sourceApplication:
+            case UIApplication.LaunchOptionsKey.sourceApplication:
                 break
-            case UIApplicationLaunchOptionsKey.annotation:
+            case UIApplication.LaunchOptionsKey.annotation:
                 break
             default:
                 break
@@ -43,7 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         saveFileFromURL(url: url)
         return true
     }
