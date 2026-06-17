@@ -17,8 +17,9 @@ class CreatingPageViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         fileNameTextField.delegate = self
+        Theme.applyScreenTheme(self)
     }
     
     

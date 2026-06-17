@@ -59,7 +59,10 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     let textViewTitle = "Index|Note |Channel|Time |Beat |Duration\n"
     var musicSequenceModifiedFlag = true
     var instrumentList:Array<Instrument>!
-    
+
+    // Redesigned UI: piano-roll visualization placed over the old text dump.
+    var pianoRoll: PianoRollView!
+
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var textView: UITextView!
@@ -83,6 +86,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupModernUI()
         instrumentList = getInstrumentList()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         self.view.addGestureRecognizer(tapGesture)
@@ -121,6 +125,65 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+
+    // MARK: - Redesigned UI
+
+    func setupModernUI() {
+        view.backgroundColor = Theme.background
+
+        // Insert the piano roll where the monospace text dump used to be.
+        if let host = textView.superview {
+            pianoRoll = PianoRollView(frame: textView.frame)
+            pianoRoll.translatesAutoresizingMaskIntoConstraints = false
+            host.insertSubview(pianoRoll, belowSubview: textView)
+            // Enlarge the roll to fill the empty space above the old text dump.
+            NSLayoutConstraint.activate([
+                pianoRoll.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
+                pianoRoll.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
+                pianoRoll.topAnchor.constraint(equalTo: noteIndexTextField.bottomAnchor, constant: 18),
+                pianoRoll.bottomAnchor.constraint(equalTo: textView.bottomAnchor),
+            ])
+            Theme.styleCard(pianoRoll)
+            textView.isHidden = true
+        }
+
+        styleControls(in: view)
+    }
+
+    private func styleControls(in root: UIView) {
+        for sub in root.subviews {
+            if let button = sub as? UIButton {
+                let title = (button.currentTitle ?? "").lowercased()
+                if button == playButton {
+                    Theme.stylePrimary(button)
+                } else if title.contains("delete") {
+                    Theme.styleSecondary(button, color: Theme.danger)
+                } else {
+                    Theme.styleSecondary(button)
+                }
+            } else if let tf = sub as? UITextField {
+                Theme.styleTextField(tf)
+            } else if let label = sub as? UILabel {
+                label.font = Theme.rounded(label.font.pointSize, .medium)
+                if label === loopLabel || label === durationLabel {
+                    label.textColor = Theme.accent
+                } else {
+                    label.textColor = Theme.textMuted
+                }
+            }
+            styleControls(in: sub)
+        }
+    }
+
+    func refreshPianoRoll() {
+        guard pianoRoll != nil else { return }
+        let list = noteList ?? []
+        pianoRoll.notes = list.map {
+            RollNote(pitch: Int($0.noteInfo.note),
+                     start: Double($0.time),
+                     duration: Double($0.noteInfo.duration))
+        }
     }
     
     // UIPickerViewDataSource
@@ -202,6 +265,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             sender.setTitle("Play", for: .normal)
             stopTimer()
             enableButtonsAfterStop()
+            pianoRoll?.isPlaying = false
         } else  {
             if timeTextField.text != "" {
                 if let t = Double(timeTextField.text!){
@@ -223,6 +287,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
                     } else  {
                         sender.setTitle("Play", for: .normal)
                         self.enableButtonsAfterStop()
+                        self.pianoRoll?.isPlaying = false
                     }
                 }
             })
@@ -237,6 +302,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         if (musicTrackList.isEmpty || avMIDIPlayer == nil) {return}
         avMIDIPlayer?.currentPosition = 0
         timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded()/100)"
+        pianoRoll?.currentBeat = 0
     }
     
     @IBAction func deleteATrack(_ sender: UIButton) {
@@ -390,6 +456,8 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         if avMIDIPlayer!.isPlaying{
             timeTextField.text = "\((avMIDIPlayer!.currentPosition*100).rounded(.up)/100)"
             highlightPlayingNotesInTextView ()
+            pianoRoll?.isPlaying = true
+            pianoRoll?.currentBeat = convertTimeToBeat(inSequence: musicSequence!, inSeconds: avMIDIPlayer!.currentPosition)
         }
     }
     
@@ -566,6 +634,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             //textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(durationString) \(releaseVelocityString) \(velocityString)\n")
             textView.insertText("\(indexString) \(noteString) \(channelString) \(timeString) \(beatString) \(durationString) \n")
         }
+        refreshPianoRoll()
     }
     
     func highlightPlayingNotesInTextView () {
