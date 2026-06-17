@@ -78,7 +78,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="rename"/>
                                 <connections>
-                                    <action selector="rename:" destination="3GY-nR-M1L" eventType="touchUpInside" id="q4r-jF-woI"/>
+                                    <action selector="renameFile:" destination="3GY-nR-M1L" eventType="touchUpInside" id="q4r-jF-woI"/>
                                 </connections>
                             </button>
                         </subviews>

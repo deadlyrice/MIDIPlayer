@@ -585,7 +585,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
             textView.selectedRange = NSMakeRange(startPosition , length)
             textView.scrollRangeToVisible(NSMakeRange(startPosition, (textViewTitle.count * 10)))
             let attributedString = NSMutableAttributedString(string: textView.text)
-            attributedString.addAttribute(NSAttributedStringKey.backgroundColor, value: UIColor.red, range: textView.selectedRange)
+            attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.red, range: textView.selectedRange)
             textView.attributedText = attributedString
             textView.font = UIFont(name: "Courier new", size: 12)
         }
