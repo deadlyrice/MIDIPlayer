@@ -60,8 +60,11 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     var musicSequenceModifiedFlag = true
     var instrumentList:Array<Instrument>!
 
-    // Redesigned UI: piano-roll visualization placed over the old text dump.
+    // Redesigned UI: piano-roll visualization + tappable keyboard.
     var pianoRoll: PianoRollView!
+    var keyboard: PianoKeyboardView!
+    var auditionEngine: AVAudioEngine?
+    var auditionSampler: AVAudioUnitSampler?
 
     @IBOutlet weak var timeTextField: UITextField!
     @IBOutlet weak var durationLabel: UILabel!
@@ -131,48 +134,183 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
 
     func setupModernUI() {
         view.backgroundColor = Theme.background
+        let originalSubviews = view.subviews   // to hide leftovers later
 
-        // Insert the piano roll where the monospace text dump used to be.
-        if let host = textView.superview {
-            pianoRoll = PianoRollView(frame: textView.frame)
-            pianoRoll.translatesAutoresizingMaskIntoConstraints = false
-            host.insertSubview(pianoRoll, belowSubview: textView)
-            // Enlarge the roll to fill the empty space above the old text dump.
-            NSLayoutConstraint.activate([
-                pianoRoll.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
-                pianoRoll.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
-                pianoRoll.topAnchor.constraint(equalTo: noteIndexTextField.bottomAnchor, constant: 18),
-                pianoRoll.bottomAnchor.constraint(equalTo: textView.bottomAnchor),
-            ])
-            Theme.styleCard(pianoRoll)
-            textView.isHidden = true
+        // Visualization views
+        pianoRoll = PianoRollView(); pianoRoll.translatesAutoresizingMaskIntoConstraints = false
+        keyboard = PianoKeyboardView(); keyboard.translatesAutoresizingMaskIntoConstraints = false
+        keyboard.onKeyTapped = { [weak self] name in self?.selectNoteFromKeyboard(name) }
+
+        // New buttons for storyboard actions that have no outlet
+        let resetButton = makeActionButton("Reset", #selector(reset(_:)))
+        let loopBtn     = makeActionButton("Loop",  #selector(loopButton(_:)))
+        let backBtn     = makeActionButton("Back",  #selector(back(_:)))
+        let saveBtn     = makeActionButton("Save",  #selector(save(_:)))
+
+        // Style the reused (outlet-backed) controls
+        Theme.stylePrimary(playButton)
+        for b in [addATrackButton, deleteATrackButton, changeInstrumentButton, addANoteButton, deleteANoteButton] {
+            guard let b = b else { continue }
+            let isDelete = (b.currentTitle ?? "").lowercased().contains("delete")
+            Theme.styleSecondary(b, color: isDelete ? Theme.danger : Theme.accent)
         }
+        for tf in [timeTextField, trackTextField, instrumentTextField, noteTextField, beatTimeTextField, durationTextField, noteIndexTextField] {
+            guard let tf = tf else { continue }
+            stripSizeConstraints(tf); Theme.styleTextField(tf)
+            tf.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        }
+        loopLabel.text = loopLabel.text ?? "True"
+        loopLabel.textColor = Theme.accent
+        loopLabel.font = Theme.rounded(14, .semibold)
+        durationLabel.textColor = Theme.textMuted
+        durationLabel.font = Theme.rounded(14, .semibold)
+        [playButton, resetButton, loopBtn, backBtn, saveBtn, addATrackButton, deleteATrackButton,
+         changeInstrumentButton, addANoteButton, deleteANoteButton].forEach { $0.map { stripSizeConstraints($0) } }
 
-        styleControls(in: view)
+        // --- Assemble layout ---
+        timeTextField.widthAnchor.constraint(equalToConstant: 52).isActive = true
+        let transport = hRow([playButton, resetButton, loopBtn, loopLabel, spacerView(),
+                              timeTextField, sectionLabel("/"), durationLabel], spacing: 8, fill: false)
+
+        let trackFields = hRow([trackTextField, instrumentTextField], spacing: 10, fill: true)
+        let trackButtons = hRow([addATrackButton, deleteATrackButton, changeInstrumentButton], spacing: 8, fill: true)
+        let trackCard = card(vStack([sectionLabel("TRACK", header: true), trackFields, trackButtons]))
+
+        let noteHeaders = hRow([sectionLabel("Note"), sectionLabel("Beat"), sectionLabel("Dur"), sectionLabel("Idx")], spacing: 6, fill: true)
+        let noteFields = hRow([noteTextField, beatTimeTextField, durationTextField, noteIndexTextField], spacing: 6, fill: true)
+        let noteButtons = hRow([addANoteButton, deleteANoteButton], spacing: 8, fill: true)
+        let noteCard = card(vStack([sectionLabel("ADD / EDIT NOTE", header: true), noteHeaders, noteFields, noteButtons, keyboard]))
+
+        let bottom = hRow([backBtn, saveBtn], spacing: 8, fill: true)
+
+        let root = vStack([card(transport), trackCard, pianoRoll, noteCard, bottom])
+        root.spacing = 12
+        root.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(root)
+        let g = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            root.leadingAnchor.constraint(equalTo: g.leadingAnchor, constant: 16),
+            root.trailingAnchor.constraint(equalTo: g.trailingAnchor, constant: -16),
+            root.topAnchor.constraint(equalTo: g.topAnchor, constant: 8),
+            root.bottomAnchor.constraint(equalTo: g.bottomAnchor, constant: -8),
+            pianoRoll.heightAnchor.constraint(greaterThanOrEqualToConstant: 160),
+            keyboard.heightAnchor.constraint(equalToConstant: 92),
+        ])
+        pianoRoll.setContentHuggingPriority(.defaultLow, for: .vertical)
+        pianoRoll.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+
+        // Hide the leftover storyboard controls we didn't reuse.
+        for v in originalSubviews where v.superview === view && (v is UIButton || v is UILabel) {
+            v.isHidden = true
+        }
+        textView.isHidden = true
+
+        setupAudition()
     }
 
-    private func styleControls(in root: UIView) {
-        for sub in root.subviews {
-            if let button = sub as? UIButton {
-                let title = (button.currentTitle ?? "").lowercased()
-                if button == playButton {
-                    Theme.stylePrimary(button)
-                } else if title.contains("delete") {
-                    Theme.styleSecondary(button, color: Theme.danger)
-                } else {
-                    Theme.styleSecondary(button)
-                }
-            } else if let tf = sub as? UITextField {
-                Theme.styleTextField(tf)
-            } else if let label = sub as? UILabel {
-                label.font = Theme.rounded(label.font.pointSize, .medium)
-                if label === loopLabel || label === durationLabel {
-                    label.textColor = Theme.accent
-                } else {
-                    label.textColor = Theme.textMuted
-                }
-            }
-            styleControls(in: sub)
+    // MARK: Layout helpers
+
+    private func stripSizeConstraints(_ v: UIView) {
+        let bad = v.constraints.filter {
+            ($0.firstItem as? UIView) === v && $0.secondItem == nil &&
+            ($0.firstAttribute == .width || $0.firstAttribute == .height)
+        }
+        v.removeConstraints(bad)
+    }
+
+    private func makeActionButton(_ title: String, _ action: Selector) -> UIButton {
+        let b = UIButton(type: .system)
+        b.setTitle(title, for: .normal)
+        b.addTarget(self, action: action, for: .touchUpInside)
+        let isDelete = title.lowercased().contains("delete")
+        Theme.styleSecondary(b, color: isDelete ? Theme.danger : Theme.accent)
+        return b
+    }
+
+    private func spacerView() -> UIView {
+        let v = UIView()
+        v.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        v.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return v
+    }
+
+    private func sectionLabel(_ text: String, header: Bool = false) -> UILabel {
+        let l = UILabel()
+        l.text = text
+        l.textColor = header ? Theme.textMuted : Theme.textMuted
+        l.font = header ? Theme.rounded(12, .bold) : Theme.rounded(13, .semibold)
+        l.textAlignment = header ? .left : .center
+        if header { l.text = text }   // keep section text as-is
+        return l
+    }
+
+    private func hRow(_ views: [UIView], spacing: CGFloat, fill: Bool = false) -> UIStackView {
+        let s = UIStackView(arrangedSubviews: views)
+        s.axis = .horizontal
+        s.spacing = spacing
+        s.alignment = .center
+        s.distribution = fill ? .fillEqually : .fill
+        return s
+    }
+
+    private func vStack(_ views: [UIView]) -> UIStackView {
+        let s = UIStackView(arrangedSubviews: views)
+        s.axis = .vertical
+        s.spacing = 10
+        s.alignment = .fill
+        return s
+    }
+
+    private func card(_ content: UIView) -> UIView {
+        let c = UIView()
+        Theme.styleCard(c)
+        content.translatesAutoresizingMaskIntoConstraints = false
+        c.addSubview(content)
+        NSLayoutConstraint.activate([
+            content.leadingAnchor.constraint(equalTo: c.leadingAnchor, constant: 14),
+            content.trailingAnchor.constraint(equalTo: c.trailingAnchor, constant: -14),
+            content.topAnchor.constraint(equalTo: c.topAnchor, constant: 12),
+            content.bottomAnchor.constraint(equalTo: c.bottomAnchor, constant: -12),
+        ])
+        return c
+    }
+
+    // MARK: Keyboard note entry + audition
+
+    private func selectNoteFromKeyboard(_ name: String) {
+        noteTextField.text = name
+        if let row = NotePickerString.firstIndex(of: name) {
+            notePickerView?.selectRow(row, inComponent: 0, animated: true)
+            // addANote stores the picked row + 12 (see addANote); audition the
+            // same pitch so what you hear matches what gets added/played.
+            audition(pitch: row + 12)
+        }
+    }
+
+    private func setupAudition() {
+        guard let url = Bundle.main.url(forResource: "GeneralUserGS", withExtension: "sf2") else { return }
+        let engine = AVAudioEngine()
+        let sampler = AVAudioUnitSampler()
+        engine.attach(sampler)
+        engine.connect(sampler, to: engine.mainMixerNode, format: nil)
+        do {
+            try engine.start()
+            try sampler.loadSoundBankInstrument(at: url, program: 0,
+                                                bankMSB: UInt8(kAUSampler_DefaultMelodicBankMSB),
+                                                bankLSB: UInt8(kAUSampler_DefaultBankLSB))
+            auditionEngine = engine
+            auditionSampler = sampler
+        } catch {
+            print("Audition setup failed: \(error.localizedDescription)")
+        }
+    }
+
+    private func audition(pitch: Int) {
+        guard let sampler = auditionSampler, pitch >= 0, pitch <= 127 else { return }
+        let note = UInt8(pitch)
+        sampler.startNote(note, withVelocity: 96, onChannel: 0)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            sampler.stopNote(note, onChannel: 0)
         }
     }
 
