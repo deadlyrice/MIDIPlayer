@@ -426,7 +426,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func createAVMIDIPlayer(musicSequence: MusicSequence) {
         // http://www.ntonyx.com/sf_f.htm
-        let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
+        let bankURL = Bundle.main.url(forResource: "GeneralUserGS", withExtension: "sf2")
         var status = noErr
         var data: Unmanaged<CFData>?
         timeResolution = determineTimeResolution(musicSequence: musicSequence)
@@ -452,7 +452,7 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func createAVMIDIPlayerFromMIDIFIle() {
         let midiFileURL = Bundle.main.url(forResource: fileName, withExtension: nil)
-        let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
+        let bankURL = Bundle.main.url(forResource: "GeneralUserGS", withExtension: "sf2")
         do {
             try self.avMIDIPlayer = AVMIDIPlayer(contentsOf: midiFileURL!, soundBankURL: bankURL)
         } catch let error {

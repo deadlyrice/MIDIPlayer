@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		2511188C1FCF5B3F006A4005 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2511188B1FCF5B3F006A4005 /* Note.swift */; };
-		2576BFF91FCE5027000B541D /* 32MbGMStereo.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFF81FCE5027000B541D /* 32MbGMStereo.sf2 */; };
-		2576BFFB1FCE55AB000B541D /* MIDI_sample.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFA1FCE55AB000B541D /* MIDI_sample.mid */; };
-		2576BFFD1FCE5633000B541D /* teddybear.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFC1FCE5633000B541D /* teddybear.mid */; };
-		2576BFFF1FCE5692000B541D /* meanwoman.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFE1FCE5692000B541D /* meanwoman.mid */; };
-		2576C0011FCE5751000B541D /* take5.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576C0001FCE5751000B541D /* take5.mid */; };
+		2576BFF91FCE5027000B541D /* GeneralUserGS.sf2 in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFF81FCE5027000B541D /* GeneralUserGS.sf2 */; };
+		2576BFFB1FCE55AB000B541D /* Ode to Joy.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFA1FCE55AB000B541D /* Ode to Joy.mid */; };
+		2576BFFD1FCE5633000B541D /* Twinkle Twinkle.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFC1FCE5633000B541D /* Twinkle Twinkle.mid */; };
+		2576BFFF1FCE5692000B541D /* Mary Had a Little Lamb.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576BFFE1FCE5692000B541D /* Mary Had a Little Lamb.mid */; };
+		2576C0011FCE5751000B541D /* Fur Elise.mid in Resources */ = {isa = PBXBuildFile; fileRef = 2576C0001FCE5751000B541D /* Fur Elise.mid */; };
 		2586EC211FCC6A680090C8EB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC201FCC6A680090C8EB /* AppDelegate.swift */; };
 		2586EC231FCC6A680090C8EB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2586EC221FCC6A680090C8EB /* ViewController.swift */; };
 		2586EC261FCC6A680090C8EB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2586EC241FCC6A680090C8EB /* Main.storyboard */; };
@@ -57,11 +57,11 @@
 
 /* Begin PBXFileReference section */
 		2511188B1FCF5B3F006A4005 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		2576BFF81FCE5027000B541D /* 32MbGMStereo.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 32MbGMStereo.sf2; sourceTree = "<group>"; };
-		2576BFFA1FCE55AB000B541D /* MIDI_sample.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = MIDI_sample.mid; sourceTree = "<group>"; };
-		2576BFFC1FCE5633000B541D /* teddybear.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = teddybear.mid; sourceTree = "<group>"; };
-		2576BFFE1FCE5692000B541D /* meanwoman.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = meanwoman.mid; sourceTree = "<group>"; };
-		2576C0001FCE5751000B541D /* take5.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = take5.mid; sourceTree = "<group>"; };
+		2576BFF81FCE5027000B541D /* GeneralUserGS.sf2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = GeneralUserGS.sf2; sourceTree = "<group>"; };
+		2576BFFA1FCE55AB000B541D /* Ode to Joy.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Ode to Joy.mid"; sourceTree = "<group>"; };
+		2576BFFC1FCE5633000B541D /* Twinkle Twinkle.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Twinkle Twinkle.mid"; sourceTree = "<group>"; };
+		2576BFFE1FCE5692000B541D /* Mary Had a Little Lamb.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Mary Had a Little Lamb.mid"; sourceTree = "<group>"; };
+		2576C0001FCE5751000B541D /* Fur Elise.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = "Fur Elise.mid"; sourceTree = "<group>"; };
 		2586EC1D1FCC6A680090C8EB /* MIDIPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MIDIPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2586EC201FCC6A680090C8EB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2586EC221FCC6A680090C8EB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -170,10 +170,10 @@
 		2586EC4E1FCC6AF00090C8EB /* samples */ = {
 			isa = PBXGroup;
 			children = (
-				2576BFFA1FCE55AB000B541D /* MIDI_sample.mid */,
-				2576C0001FCE5751000B541D /* take5.mid */,
-				2576BFFE1FCE5692000B541D /* meanwoman.mid */,
-				2576BFFC1FCE5633000B541D /* teddybear.mid */,
+				2576BFFA1FCE55AB000B541D /* Ode to Joy.mid */,
+				2576C0001FCE5751000B541D /* Fur Elise.mid */,
+				2576BFFE1FCE5692000B541D /* Mary Had a Little Lamb.mid */,
+				2576BFFC1FCE5633000B541D /* Twinkle Twinkle.mid */,
 			);
 			path = samples;
 			sourceTree = "<group>";
@@ -218,7 +218,7 @@
 		2586EC7D1FCE21170090C8EB /* sound bank */ = {
 			isa = PBXGroup;
 			children = (
-				2576BFF81FCE5027000B541D /* 32MbGMStereo.sf2 */,
+				2576BFF81FCE5027000B541D /* GeneralUserGS.sf2 */,
 			);
 			path = "sound bank";
 			sourceTree = "<group>";
@@ -336,13 +336,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2586EC2B1FCC6A680090C8EB /* LaunchScreen.storyboard in Resources */,
-				2576BFFD1FCE5633000B541D /* teddybear.mid in Resources */,
-				2576BFFF1FCE5692000B541D /* meanwoman.mid in Resources */,
-				2576C0011FCE5751000B541D /* take5.mid in Resources */,
+				2576BFFD1FCE5633000B541D /* Twinkle Twinkle.mid in Resources */,
+				2576BFFF1FCE5692000B541D /* Mary Had a Little Lamb.mid in Resources */,
+				2576C0011FCE5751000B541D /* Fur Elise.mid in Resources */,
 				2586EC281FCC6A680090C8EB /* Assets.xcassets in Resources */,
-				2576BFF91FCE5027000B541D /* 32MbGMStereo.sf2 in Resources */,
+				2576BFF91FCE5027000B541D /* GeneralUserGS.sf2 in Resources */,
 				2586EC261FCC6A680090C8EB /* Main.storyboard in Resources */,
-				2576BFFB1FCE55AB000B541D /* MIDI_sample.mid in Resources */,
+				2576BFFB1FCE55AB000B541D /* Ode to Joy.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
