@@ -38,6 +38,7 @@
 		25C7BE301FD6F13700371350 /* Instrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25C7BE2F1FD6F13700371350 /* Instrument.swift */; };
 		FEEDFACE000000000000B002 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEDFACE000000000000B001 /* Theme.swift */; };
 		FEEDFACE000000000000B012 /* PianoRollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEDFACE000000000000B011 /* PianoRollView.swift */; };
+		FEEDFACE000000000000B022 /* PianoKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEEDFACE000000000000B021 /* PianoKeyboardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		25C7BE2F1FD6F13700371350 /* Instrument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		FEEDFACE000000000000B001 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Theme.swift; path = Commons/Theme.swift; sourceTree = "<group>"; };
 		FEEDFACE000000000000B011 /* PianoRollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PianoRollView.swift; path = Views/PianoRollView.swift; sourceTree = "<group>"; };
+		FEEDFACE000000000000B021 /* PianoKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PianoKeyboardView.swift; path = Views/PianoKeyboardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +139,7 @@
 		2586EC1F1FCC6A680090C8EB /* MIDIPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				FEEDFACE000000000000B021 /* PianoKeyboardView.swift */,
 				FEEDFACE000000000000B001 /* Theme.swift */,
 				FEEDFACE000000000000B011 /* PianoRollView.swift */,
 				2586EC6D1FCC6D560090C8EB /* entities */,
@@ -373,6 +376,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FEEDFACE000000000000B022 /* PianoKeyboardView.swift in Sources */,
 				FEEDFACE000000000000B002 /* Theme.swift in Sources */,
 				FEEDFACE000000000000B012 /* PianoRollView.swift in Sources */,
 				2586EC7C1FCDA2040090C8EB /* CreatingPageViewController.swift in Sources */,
