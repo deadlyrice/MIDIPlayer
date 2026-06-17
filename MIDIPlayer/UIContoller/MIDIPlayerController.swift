@@ -281,7 +281,9 @@ class MIDIPlayerController: UIViewController, UIPickerViewDelegate, UIPickerView
         noteTextField.text = name
         if let row = NotePickerString.firstIndex(of: name) {
             notePickerView?.selectRow(row, inComponent: 0, animated: true)
-            audition(pitch: row)
+            // addANote stores the picked row + 12 (see addANote); audition the
+            // same pitch so what you hear matches what gets added/played.
+            audition(pitch: row + 12)
         }
     }
 
