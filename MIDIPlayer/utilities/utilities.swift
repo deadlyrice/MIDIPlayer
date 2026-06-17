@@ -26,9 +26,9 @@ func getSampleList() -> Array<String> {
     
     if enumerator != nil {
         while let file = enumerator!.nextObject() {
-            let pathURL = URL(fileURLWithPath: (file as! URL).absoluteString, relativeTo: folderURL)
-            if pathURL.path.hasSuffix(".mid"){
-                sampleList.append(pathURL.pathComponents.last!)
+            let fileURL = file as! URL
+            if fileURL.pathExtension == "mid" {
+                sampleList.append(fileURL.lastPathComponent)
             }
         }
     }
@@ -53,9 +53,9 @@ func getSavedList() -> Array<String> {
     
     if enumerator != nil {
         while let file = enumerator!.nextObject() {
-            let pathURL = URL(fileURLWithPath: (file as! URL).absoluteString, relativeTo: folderURL)
-            if pathURL.path.hasSuffix(".mid"){
-                savedList.append(pathURL.pathComponents.last!)
+            let fileURL = file as! URL
+            if fileURL.pathExtension == "mid" {
+                savedList.append(fileURL.lastPathComponent)
             }
         }
     }
@@ -296,7 +296,7 @@ func saveFileFromURL (url:URL) {
 func getInstrumentList () -> Array<Instrument> {
     var instrumentList = Array<Instrument> ()
     
-    let bankURL = Bundle.main.url(forResource: "32MbGMStereo", withExtension: "sf2")
+    let bankURL = Bundle.main.url(forResource: "GeneralUserGS", withExtension: "sf2")
     
     var instrumentsInfo:Unmanaged<CFArray>?
     CopyInstrumentInfoFromSoundBank(bankURL! as CFURL, &instrumentsInfo)
