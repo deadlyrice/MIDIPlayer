@@ -23,9 +23,7 @@ class RenamePageController: ViewController, UITextFieldDelegate {
         fileNameTextField.text = fileName
         fileNameTextField.becomeFirstResponder()
         fileNameTextField.selectAll(nil)
-        
-        
-        
+        Theme.applyScreenTheme(self)
     }
     
     override func viewDidAppear(_ animated: Bool) {
